@@ -1,22 +1,21 @@
-import matplotlib.pyplot as plt
-from matplotlib import style
-import numpy as np
-import random
 from collections import defaultdict
 
-class K_means:
+import numpy as np
+
+
+class Kmeans:
     """
     This class is an implementation of K-means algorithm.
     """
-    def __init__(self, data, K, num_iter=100, tol=0.001):
+    def __init__(self, data, k, num_iter=100, tol=0.001):
         """
         K -- how many clusters
         num_iter -- iter to get better clusters
         data -- data to cluster (have to be a numpy array)
         tol -- tolerance (to optimaze k-means)
         """
-        assert K < len(data)
-        self.K = K
+        assert k < len(data)
+        self.k = k
         self.n = num_iter
         self.data = data
         self.tol = tol
@@ -39,21 +38,23 @@ class K_means:
 
         sumatory = 0
         for i, set_xi in classifications.items():
-            sumatory += sum(self.euclidean_distance(xi, centroids[i]) for xi in set_xi)
+            sumatory += sum(self.euclidean_distance(xi, centroids[i]) for xi in
+                            set_xi)
 
-        return sumatory/m
+        return sumatory / m
 
     def __fit(self):
         """
         K-means algorithm
         """
-        K = self.K
+        k = self.k
         n = self.n
         data = self.data
 
         # init the centroids randomly
         centroids = {}
-        for k, idx in enumerate(np.random.choice(range(len(data)), K, replace=False)):
+        for k, idx in enumerate(np.random.choice(range(len(data)), k,
+                                replace=False)):
             centroids[k] = data[idx, :]
 
         for i in range(n):
@@ -70,14 +71,15 @@ class K_means:
 
             # move centroids step.
             for classif in classifications:
-                centroids[classif] = np.average(classifications[classif], axis=0)
+                centroids[classif] = np.average(classifications[classif],
+                                                axis=0)
 
             # optimaze with tol of tolerance
             optimaze = True
             for k, c in centroids.items():
                 prev_centr = prev_centroids[k]
                 actual_centr = c
-                if abs(np.sum(actual_centr-prev_centr)) > self.tol:
+                if abs(np.sum(actual_centr - prev_centr)) > self.tol:
                     optimaze = False
 
             if optimaze:
@@ -95,41 +97,13 @@ class K_means:
         best_classif = {}
         best_centroid = {}
 
-        best_J = float('inf')
+        best_j = float('inf')
         for _ in range(max_iter):
             self.__fit()
-            J = self.J(self.__classifications, self.__centroids)
-            print(J, best_J)
-            if J < best_J:
-                best_J = J
+            j = self.J(self.__classifications, self.__centroids)
+            if j < best_j:
+                best_j = j
                 best_classif = self.__classifications
                 best_centroid = self.__centroids
 
         return best_classif, best_centroid
-
-X = np.array([[1, 2],
-              [1.5, 1.8],
-              [5, 8 ],
-              [8, 8],
-              [1, 0.6],
-              [9,11],
-              [1,3],
-              [8,9],
-              [0,3],
-              [5,4],
-              [6,4],])
-
-colors = 10*["g","r","c","b","k"]
-clf = K_means(X, 3)
-classifications, centroids = clf.get_best_fit()
-
-for centroid in centroids:
-    plt.scatter(centroids[centroid][0], centroids[centroid][1],
-                marker="o", color="k", linewidths=5)
-
-for classification in classifications:
-    color = colors[classification]
-    for featureset in classifications[classification]:
-        plt.scatter(featureset[0], featureset[1], marker="x", color=color, linewidths=5)
-
-plt.show()
