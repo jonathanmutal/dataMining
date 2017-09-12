@@ -40,6 +40,34 @@ class K_means:
 
             # move centroids step.
             for classif in classifications:
-                centroids[k] = np.average(classifications[classif], axis=0)
+                centroids[classif] = np.average(classifications[classif], axis=0)
+
+            self.classifications = classifications
+            self.centroids = centroids
+
+X = np.array([[1, 2],
+              [1.5, 1.8],
+              [5, 8 ],
+              [8, 8],
+              [1, 0.6],
+              [9,11]])
+
+plt.scatter(X[:,0], X[:,1], s=150, c='r', alpha=0.7)
+plt.subplots()
 
 k_means = K_means(2)
+k_means.fit(X)
+classif = k_means.classifications
+centroids = k_means.centroids
+
+for i in classif[0]:
+    plt.scatter(i[0], i[1], s=50, c='r', alpha=0.5)
+
+for i in classif[1]:
+    plt.scatter(i[0], i[1], s=50, c='b', alpha=0.5)
+
+print(centroids)
+plt.plot(centroids[0][0], centroids[0][1], 'r*')
+plt.plot(centroids[1][0], centroids[1][1], 'b*')
+
+plt.show()
