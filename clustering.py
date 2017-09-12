@@ -8,21 +8,46 @@ class K_means:
     """
     This class is an implementation of K-means algorithm.
     """
-    def __init__(self, K, num_iter=10):
+    def __init__(self, data, K, num_iter=100):
         """
         K -- how many clusters
         num_iter -- iter to get better clusters
+        data -- data to cluster (have to be a numpy array)
         """
+        assert K < len(data)
         self.K = K
         self.n = num_iter
+        self.data = data
 
-    def fit(self, data):
+    def euclidean_distance(self, xi, centroid):
+        """
+        Euclidean distance ||xi-centroid||^2
+        xi -- array representing words
+        centroid -- array representing the centroid
+        """
+        return np.linalg.norm(xi - centroid)
+
+    def J(self, classifications, centroids):
+        """
+        Distortion functions
+        classifications -- c^1, ... , c^m
+        centroids -- centroids to be evaluated
+        """
+        m = len(self.data)
+
+        sumatory = 0
+        for i, set_xi in classifications.items():
+            sumatory += sum(self.euclidean_distance(xi, centroids[i]) for xi in set_xi)
+
+        return sumatory/m
+
+    def __fit(self):
         """
         K-means algorithm
-        data -- data to cluster (have to be a numpy array)
         """
         K = self.K
         n = self.n
+        data = self.data
 
         # init the centroids randomly
         centroids = {}
@@ -34,7 +59,7 @@ class K_means:
             # classifications
             classifications = defaultdict(list)
             for xi in data:
-                distances = [np.linalg.norm(xi - centroids[centroid]) for centroid in centroids]
+                distances = [self.euclidean_distance(xi, centroids[centroid]) for centroid in centroids]
                 index_classification = distances.index(min(distances))
                 classifications[index_classification].append(xi)
 
@@ -42,32 +67,27 @@ class K_means:
             for classif in classifications:
                 centroids[classif] = np.average(classifications[classif], axis=0)
 
-            self.classifications = classifications
-            self.centroids = centroids
+        self.__classifications = classifications
+        self.__centroids = centroids
 
-X = np.array([[1, 2],
-              [1.5, 1.8],
-              [5, 8 ],
-              [8, 8],
-              [1, 0.6],
-              [9,11]])
+    def get_best_fit(self, max_iter=50):
+        """
+        Heuristic to improve fitting
+        iter -- number of iterations
+        return the 'best' classification, centroids
+        """
+        data = self.data
+        best_classif = {}
+        best_centroid = {}
 
-plt.scatter(X[:,0], X[:,1], s=150, c='r', alpha=0.7)
-plt.subplots()
+        best_J = float('inf')
+        for _ in range(max_iter):
+            self.__fit()
+            J = self.J(self.__classifications, self.__centroids)
+            print(J, best_J)
+            if J < best_J:
+                best_J = J
+                best_classif = self.__classifications
+                best_centroid = self.__centroids
 
-k_means = K_means(2)
-k_means.fit(X)
-classif = k_means.classifications
-centroids = k_means.centroids
-
-for i in classif[0]:
-    plt.scatter(i[0], i[1], s=50, c='r', alpha=0.5)
-
-for i in classif[1]:
-    plt.scatter(i[0], i[1], s=50, c='b', alpha=0.5)
-
-print(centroids)
-plt.plot(centroids[0][0], centroids[0][1], 'r*')
-plt.plot(centroids[1][0], centroids[1][1], 'b*')
-
-plt.show()
+        return best_classif, best_centroid
