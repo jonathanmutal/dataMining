@@ -1,7 +1,0 @@
-README.md
-clustering/__init__.py
-clustering/clustering.py
-dataMining.egg-info/PKG-INFO
-dataMining.egg-info/SOURCES.txt
-dataMining.egg-info/dependency_links.txt
-dataMining.egg-info/top_level.txt
