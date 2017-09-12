@@ -1,0 +1,8 @@
+flake8
+nose
+docopt
+nltk
+scikit-learn
+-e .  # install our code in editing mode
+matplotlib==2.0.2
+numpy==1.13.1
