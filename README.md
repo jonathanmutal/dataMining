@@ -29,7 +29,7 @@ Instalation
 
       How to make and active our virtualenv?
 
-        mkvirtualenv --system-site-packages --python=/usr/bin/python3 pln-2017
+        mkvirtualenv --system-site-packages --python=/usr/bin/python3 data-mining
 
 3. Download the code:
 
