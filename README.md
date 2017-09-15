@@ -7,36 +7,37 @@ Instalation
 
 1. Soft needed:
 
-   - Git
-   - Pip
-   - Python>=3.4
-   - Virtualenv
+    - Git
+    - Pip
+    - Python>=3.4
+    - Virtualenv
 
-    How to install?::
+       How to install?
 
-    sudo apt-get install git python-pip python3 python3-tk virtualenv
+        sudo apt-get install git python-pip python3 python3-tk virtualenv
 
-2. Make and activate virtual environment
-   `virtualenv <http://virtualenv.readthedocs.org/en/latest/virtualenv.html>`_.
-   Strongly recommend `virtualenvwrapper
-   <http://virtualenvwrapper.readthedocs.org/en/latest/install.html#basic-installation>`_.
-   You can install with a simple line::
 
-    sudo pip install virtualenvwrapper
+2. Make and activate a new [virtualenv](http://virtualenv.readthedocs.org/en/latest/virtualenv.html). Strongly recommend [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/install.html#basic-installation).
 
-   After that you must add a new line at the end of the file .basrch (~/.bashrc)::
+       You can install with a simple line:
 
-    [[ -s "/usr/local/bin/virtualenvwrapper.sh" ]] && source "/usr/local/bin/virtualenvwrapper.sh"
+        sudo pip install virtualenvwrapper
 
-   How to make and active our virtualenv?::
+       After that you must add a new line at the end of the file ``.bashrc (~/.bashrc)``
 
-    mkvirtualenv --system-site-packages --python=/usr/bin/python3 pln-2017
+        [[ -s "/usr/local/bin/virtualenvwrapper.sh" ]] && source "/usr/local/bin/virtualenvwrapper.sh"
 
-3. Download the code::
+       How to make and active our virtualenv?
 
-    git clone https://github.com/joni115/dataMining.git
+        mkvirtualenv --system-site-packages --python=/usr/bin/python3 pln-2017
 
-4. Install it::
+3. Download the code:
 
-    cd PLN-2017
-    pip install -r requirements.txt
+       How?
+
+        git clone https://github.com/joni115/dataMining.git
+
+       Install it
+
+        cd dataMining
+        pip install -r requirements.txt
