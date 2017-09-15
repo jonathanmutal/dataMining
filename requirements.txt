@@ -6,3 +6,6 @@ scikit-learn
 -e .  # install our code in editing mode
 matplotlib==2.0.2
 numpy==1.13.1
+sklearn==0.0
+scipy==0.19.1
+gensim==2.3.0
