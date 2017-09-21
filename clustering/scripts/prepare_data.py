@@ -1,7 +1,7 @@
-from clustering.vectorizer import W2V_wrapper
-from clustering.preprocess import Normalization
+from vectorizer import W2V_wrapper, Featurize
+from preproccess import Normalization, TAG_norm
 
-def w2v_data():
+def w2v_train_data():
     data = Normalization()
     data.digit_to_NUM()
     corpus = data.tokenize()
@@ -9,7 +9,10 @@ def w2v_data():
     w2v_.config()
     w2v_.train()
     w2v_.save()
-    # model = w2v_.load()
 
-def manual_features():
-    raise NotImplementedError()
+# def features_manual():
+tagger = TAG_norm()
+tagg_data = tagger.tagger()
+featurize = Featurize(tagg_data)
+matrix, words = featurize.dict2matrix()
+

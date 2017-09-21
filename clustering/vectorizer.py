@@ -2,6 +2,8 @@ import gensim.models.word2vec as w2v
 
 import os
 
+from sklearn.feature_extraction import DictVectorizer
+
 class W2V_wrapper:
     def __init__(self, data, path='~/dataMining/clustering'):
         self.clean_corpus = data
@@ -36,18 +38,21 @@ class W2V_wrapper:
 
 
 class Featurize:
-    def __init__(self, sents):
+    def __init__(self, sents, triples=False):
         self.sents = sents
+        self.dictVectorizer = []
+        self.words = []
+        self.triples = triples # don't forget it about triples
 
-    def featurize_POS(complex=True):
-        X = []
+    def __featurize_POS(self):
+        sents = self.sents
         for sent in  sents:
-            for idx, (word, tag) in enumerate(sent):
-                onex = {'word':word,'POS':tag}
+            for idx, word in enumerate(sent):
+                onex = {'POS':word[1]}
 
-                onex['isupper:'] = word.isupper()
-                onex['lower:'] = word.lower()
-                onex['istittle:'] = word.istitle()
+                onex['isupper:'] = word[0].isupper()
+                onex['lower:'] = word[0].lower()
+                onex['istittle:'] = word[0].istitle()
                 prevw,prevp = '<START>', '<START>'
                 if idx != 0:
                     prevw = sent[idx - 1][0]
@@ -61,14 +66,23 @@ class Featurize:
                 onex['word-1:'] = prevw
                 onex['pos-1:'] = prevp
                 onex['word-1.pos[:2]'] = prevp[:2]
-                onex['word-1.isupper'] = prevw.upper()
+                onex['word-1.isupper'] = prevw.isupper()
                 onex['word-1.istitle'] = prevw.istitle()
 
                 onex['word+1:'] = nextw
                 onex['pos+1:'] = nextp
                 onex['word+1.pos[:2]'] = nextp[:2]
-                onex['word+1.isupper'] = nextw.upper()
+                onex['word+1.isupper'] = nextw.isupper()
                 onex['word+1.istitle'] = nextw.istitle()
 
+                # to save word
+                yield onex, word[0]
 
-                yield onex
+    def __feat2dic(self):
+        return zip(*[(dicts, word) for dicts, word in self.__featurize_POS()])
+
+    def dict2matrix(self, sparse=False):
+        dicts, words = self.__feat2dic()
+        dictV = DictVectorizer(sparse=sparse)
+        matrix = dictV.fit_transform(dicts)
+        return matrix, words

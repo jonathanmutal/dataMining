@@ -1,6 +1,5 @@
 from nltk.data import LazyLoader
-
-import spacy
+from nltk.tag.stanford import StanfordPOSTagger
 
 import codecs
 import re
@@ -23,24 +22,26 @@ class Normalization:
 
         # Should optimaze for big files
         with codecs.open(self.path, 'r', 'utf-8') as f:
-            corpus = f.read()
+            corpus = f.read(1000)
 
         corpus_sent = self.__sent_tokenizer.tokenize(corpus)
         self.corpus_clean = [re.sub('&#\d+', '', sents) for sents in corpus_sent]
 
-    def digit_to_NUM(self):
-        self.corpus_clean = [re.sub('\d+', 'NUM', sent) for sent in self.corpus_clean]
+    def __digit_to_NUM(self, words):
+        return [re.sub('\d+', 'NUM', sent) for word in words]
 
     def tokenize(self):
-        clean_corpus = [self.__word_tokenizer.findall(sents) for sents in self.corpus_clean]
+        clean_corpus = [self.__word_tokenizer.findall(sent) for sent in self.corpus_clean]
 
         return clean_corpus
 
-class Procc:
+class TAG_norm(Normalization):
     def __init_(self, path='~/dataMining/lavoztextodump.txt'):
-        with codecs.open(self.path, 'r', 'utf-8') as f:
-            corpus = f.read()
+        super().__init__(path=path)
 
-        nlp = spacy.load('es_core_web_md')
-        doc = nlp(corpus)
-        self.doc = doc
+    def tagger(self):
+        tagger = StanfordPOSTagger('/home/jonathan/dataMining/stanford-postagger-full-2017-06-09/models/spanish-distsim.tagger',
+                                   '/home/jonathan/dataMining/stanford-postagger-full-2017-06-09/stanford-postagger-3.8.0.jar')
+        corpus_ready = self.tokenize()
+
+        return tagger.tag_sents(corpus_ready)

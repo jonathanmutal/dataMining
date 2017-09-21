@@ -1,7 +1,15 @@
 from collections import defaultdict
 
 import numpy as np
+import sys
 
+def progress(msg, width=None):
+    """Ouput the progress of something on the same line."""
+    if not width:
+        width = len(msg)
+    # \b backspace
+    print('\b' * width + msg, end='')
+    sys.stdout.flush()
 
 class Kmeans:
     """
@@ -14,7 +22,6 @@ class Kmeans:
         data -- data to cluster (have to be a numpy array)
         tol -- tolerance (to optimaze k-means)
         """
-        assert k < len(data)
         self.k = k
         self.n = num_iter
         self.data = data
@@ -84,7 +91,7 @@ class Kmeans:
 
             if optimaze:
                 break
-
+            progress('{:2.2f}%'.format(i / n * 100))
         self.__classifications = classifications
         self.__centroids = centroids
 
