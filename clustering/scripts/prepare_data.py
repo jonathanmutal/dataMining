@@ -1,6 +1,8 @@
 from vectorizer import W2V_wrapper, Featurize
 from preproccess import Normalization, TAG_norm
 
+import pickle
+
 def w2v_train_data():
     data = Normalization()
     data.digit_to_NUM()
@@ -10,9 +12,18 @@ def w2v_train_data():
     w2v_.train()
     w2v_.save()
 
-# def features_manual():
-tagger = TAG_norm()
-tagg_data = tagger.tagger()
-featurize = Featurize(tagg_data)
-matrix, words = featurize.dict2matrix()
+def save_dict():
+    tagger = TAG_norm()
+    tagg_data = tagger.tagger()
+    featurize = Featurize(tagg_data)
+    featurize.feat2dic()
+    featurize.class2pickle('test.pickle')
 
+def load_dict(filename):
+    """
+    filename -- filename of pickle
+    """
+    features = []
+    with open(filename, 'rb') as f:
+        features = pickle.load(f)
+    return features

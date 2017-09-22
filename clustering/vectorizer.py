@@ -2,6 +2,8 @@ import gensim.models.word2vec as w2v
 
 import os
 
+import pickle
+
 from sklearn.feature_extraction import DictVectorizer
 
 class W2V_wrapper:
@@ -78,11 +80,15 @@ class Featurize:
                 # to save word
                 yield onex, word[0]
 
-    def __feat2dic(self):
-        return zip(*[(dicts, word) for dicts, word in self.__featurize_POS()])
+    def feat2dic(self):
+        self.dictVectorizer, self.words =  zip(*[(dicts, word) for dicts, word in self.__featurize_POS()])
+
+    def class2pickle(self, filename):
+        with open(filename, 'wb') as f:
+            pickle.dump(self, f)
 
     def dict2matrix(self, sparse=False):
-        dicts, words = self.__feat2dic()
+        self.__feat2dic()
         dictV = DictVectorizer(sparse=sparse)
-        matrix = dictV.fit_transform(dicts)
-        return matrix, words
+        matrix = dictV.fit_transform(self.dictVectorizer)
+        return matrix, self.words
