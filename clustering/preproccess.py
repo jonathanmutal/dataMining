@@ -27,8 +27,8 @@ class Normalization:
         corpus_sent = self.__sent_tokenizer.tokenize(corpus)
         self.corpus_clean = [re.sub('&#\d+', '', sents) for sents in corpus_sent]
 
-    def __digit_to_NUM(self, words):
-        return [re.sub('\d+', 'NUM', sent) for word in words]
+    def digit_to_NUM(self, words):
+        return [(re.sub('\d+', 'NUM', word[0]), word[1:]) for word in words]
 
     def tokenize(self):
         clean_corpus = [self.__word_tokenizer.findall(sent) for sent in self.corpus_clean]
@@ -40,8 +40,8 @@ class TAG_norm(Normalization):
         super().__init__(path=path)
 
     def tagger(self):
+        corpus_clean = self.tokenize()
         tagger = StanfordPOSTagger('/home/jonathan/dataMining/stanford-postagger-full-2017-06-09/models/spanish-distsim.tagger',
                                    '/home/jonathan/dataMining/stanford-postagger-full-2017-06-09/stanford-postagger-3.8.0.jar')
-        corpus_ready = self.tokenize()
-
-        return tagger.tag_sents(corpus_ready)
+        tagged_sents = tagger.tag_sents(corpus_clean)
+        return tagged_sents
