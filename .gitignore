@@ -1,2 +1,3 @@
 dataMining.egg-info/
 clustering/__pycache__/
+*.pickle
