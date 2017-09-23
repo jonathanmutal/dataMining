@@ -6,6 +6,8 @@ import pickle
 
 from sklearn.feature_extraction import DictVectorizer
 
+from collections import defaultdict
+
 class W2V_wrapper:
     def __init__(self, data, path='~/dataMining/clustering'):
         self.clean_corpus = data
@@ -40,11 +42,13 @@ class W2V_wrapper:
 
 
 class Featurize:
-    def __init__(self, sents, triples=False):
-        self.sents = sents
-        self.dictVectorizer = []
+    def __init__(self, sents, tagger='standford', triples=False):
+        self.features_dicts = []
         self.words = []
-        self.triples = triples # don't forget it about triples
+        self.sents = sents
+        self.triples = triples # don't forget about triples
+        self.tagger = tagger
+
 
     def __featurize_POS(self):
         sents = self.sents
@@ -52,8 +56,7 @@ class Featurize:
             for idx, word in enumerate(sent):
                 onex = {'POS':word[1]}
 
-                onex['isupper:'] = word[0].isupper()
-                onex['lower:'] = word[0].lower()
+                # onex['isupper:'] = word[0].isupper()
                 onex['istittle:'] = word[0].istitle()
                 prevw,prevp = '<START>', '<START>'
                 if idx != 0:
@@ -67,28 +70,35 @@ class Featurize:
 
                 onex['word-1:'] = prevw
                 onex['pos-1:'] = prevp
-                onex['word-1.pos[:2]'] = prevp[:2]
-                onex['word-1.isupper'] = prevw.isupper()
+                # onex['word-1.isupper'] = prevw.isupper()
                 onex['word-1.istitle'] = prevw.istitle()
 
                 onex['word+1:'] = nextw
                 onex['pos+1:'] = nextp
-                onex['word+1.pos[:2]'] = nextp[:2]
-                onex['word+1.isupper'] = nextw.isupper()
+                # onex['word+1.isupper'] = nextw.isupper()
                 onex['word+1.istitle'] = nextw.istitle()
 
+                if self.tagger == 'standford':
+                    onex['word.pos[:2]'] = word[1][:2]
+                    onex['word-1.pos[:2]'] = prevp[:2]
+                    onex['word+1.pos[:2]'] = nextp[:2]
+
                 # to save word
-                yield onex, word[0]
+                yield onex, word[0].lower()
 
     def feat2dic(self):
-        self.dictVectorizer, self.words =  zip(*[(dicts, word) for dicts, word in self.__featurize_POS()])
+        self.features_dicts, self.words =  zip(*[(dicts, word) for dicts, word in self.__featurize_POS()])
 
     def class2pickle(self, filename):
         with open(filename, 'wb') as f:
             pickle.dump(self, f)
 
     def dict2matrix(self, sparse=False):
-        self.__feat2dic()
+        """
+        first you should run feat2dic
+        """
+        assert(self.features_dicts != [])
+
         dictV = DictVectorizer(sparse=sparse)
-        matrix = dictV.fit_transform(self.dictVectorizer)
+        matrix = dictV.fit_transform(self.features_dicts)
         return matrix, self.words
