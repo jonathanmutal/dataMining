@@ -55,8 +55,9 @@ def cluster1():
 
 def cluster2():
     save_dict_cluster2('test_cl2.pickle')
-    cluster2()
+    print('Cluster2 save it')
     v = load_dict('test_cl2.pickle')
+    print('Cluster2 load')
     v.feat2dic()
     matrix, words = v.dict2matrix(sparse=True)
     Km = KMeans(n_clusters=30).fit(matrix)
