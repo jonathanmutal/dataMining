@@ -49,10 +49,68 @@ class Featurize:
         self.triples = triples # don't forget about triples
         self.tagger = tagger
 
+        if self.triples:
+            self.__preproccess_triples()
+
+
+    def __split_feat(self, feat):
+        try:
+            return (lambda x: (x.split('=')[0], x.split('=')[1]))(feat)
+        except:
+            raise IndexError
+
+    def __split_tags(self, tag):
+        print(tag)
+        try:
+            return map(self.__split_feat, tag.split('|'))
+        except:
+            return []
+
+
+    def __preproccess_triples(self):
+        """
+        Only for dependecies triples.
+        """
+        sents = self.sents
+        self.dict_words = dict_words = defaultdict(dict)
+        for sent in sents:
+            for idx, word in enumerate(sent):
+                pos = word[1]
+                base_word = word[0].lower() + '_' + pos
+                tag = word[2]
+                dep = word[3]
+                dep_word = word[4]
+                if base_word not in dict_words.keys():
+                    dict_words[base_word]['n'] = 1
+                    dict_words[base_word]['features'] = {}
+                else:
+                    dict_words[base_word]['n'] += 1
+
+                features = dict_words[base_word]['features']
+
+                n = 0
+                while dep in features.keys():
+                    if n==0:
+                        dep = dep + str(n)
+                    else:
+                        dep = dep[:-1] + str(n)
+                    n += 1
+
+                features[dep] = dep_word
+                features['POS'] = pos
+                # for tag_label, tag_feature in self.__split_tags(tag):
+                #     features[tag_label + str(n)] = tag_feature
+
+    def __featurize_triples(self):
+        for word in self.dict_words:
+            if self.dict_words[word]['n'] <= 3:
+                continue
+            else:
+                yield self.dict_words[word]['features'], word
 
     def __featurize_POS(self):
         sents = self.sents
-        for sent in  sents:
+        for sent in sents:
             for idx, word in enumerate(sent):
                 onex = {'POS':word[1]}
 
@@ -63,7 +121,7 @@ class Featurize:
                     prevw = sent[idx - 1][0]
                     prevp = sent[idx - 1][1]
 
-                nextw, nextp = '<END>','<END>'
+                nextw, nextp = '<END>', '<END>'
                 if idx != len(sent) - 1:
                     nextw = sent[idx + 1][0]
                     nextp = sent[idx + 1][1]
@@ -83,11 +141,13 @@ class Featurize:
                     onex['word-1.pos[:2]'] = prevp[:2]
                     onex['word+1.pos[:2]'] = nextp[:2]
 
-                # to save word
                 yield onex, word[0].lower()
 
     def feat2dic(self):
-        self.features_dicts, self.words =  zip(*[(dicts, word) for dicts, word in self.__featurize_POS()])
+        if self.triples:
+            self.features_dicts, self.words = zip(*[(dicts, word) for dicts, word in self.__featurize_triples()])
+        else:
+            self.features_dicts, self.words =  zip(*[(dicts, word) for dicts, word in self.__featurize_POS()])
 
     def class2pickle(self, filename):
         with open(filename, 'wb') as f:
