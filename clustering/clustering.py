@@ -8,7 +8,7 @@ def progress(msg, width=None):
     if not width:
         width = len(msg)
     # \b backspace
-    print('\b' * width + msg, end='')
+    print('\b' * (width + 1) + msg, end='')
     sys.stdout.flush()
 
 class Kmeans:
@@ -68,10 +68,12 @@ class Kmeans:
             # run k-means. cluster aligment step
             # classifications
             classifications = defaultdict(list)
-            for xi in data:
+            i_classifications = defaultdict(list)
+            for idx, xi in enumerate(data):
                 distances = [self.euclidean_distance(xi, centroids[centroid]) for centroid in centroids]
                 index_classification = distances.index(min(distances))
                 classifications[index_classification].append(xi)
+                i_classifications[index_classification].append(idx)
 
             # to optimaze
             prev_centroids = dict(centroids)
@@ -94,6 +96,7 @@ class Kmeans:
             progress('{:2.2f}%'.format(i / n * 100))
         self.__classifications = classifications
         self.__centroids = centroids
+        self.__i_classifications = i_classifications
 
     def get_best_fit(self, max_iter=10):
         """
@@ -111,6 +114,7 @@ class Kmeans:
             if j < best_j:
                 best_j = j
                 best_classif = self.__classifications
+                best_i_classif = self.__i_classifications
                 best_centroid = self.__centroids
 
-        return best_classif, best_centroid
+        return best_i_classif, best_centroid
