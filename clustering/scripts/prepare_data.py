@@ -3,6 +3,7 @@ from clustering.preproccess import Normalization, TAG_norm
 from clustering.clustering import Kmeans_WR
 
 import pickle
+import matplotlib.pyplot as plt
 
 def w2v_train_data():
     data = Normalization()
@@ -41,7 +42,7 @@ def k_means(k, matrix, words):
         print(i, clusters[clus])
 
 def cluster1():
-    save_dict('test_cl1.pickle', taggerUse='standford', triples=False)
+    save_dict('test_cl1.pickle', taggerUse='spacy', triples=False)
     v = load_dict('test_cl1.pickle')
 
     k_means(40, v.matrix, v.words)
@@ -71,10 +72,20 @@ def cluster5():
     k_means(40, v.matrix_reduced, v.words)
 
 if __name__ == '__main__':
-    cluster2()
-    cluster3()
-    cluster4()
-    cluster5()
-    # v = load_dict('test_cl5.pickle')
-    # print(v.matrix_reduced[0:10], v.words[0:10])
-    # k_means(30, v.matrix, v.words)
+    # cluster2()
+    # cluster3()
+    # cluster4()
+    # cluster5()
+    v = load_dict('test_cl5.pickle')
+
+
+##### GET BEST K ########
+    # Kmean = Kmeans_WR(10, v.matrix_reduced, v.words)
+    # list_k = Kmean.get_best_K()
+    # print(list_k)
+    # K, j_funct = zip(*list_k)
+    # plt.plot(K, j_funct)
+    # plt.title('Elbow method')
+    # plt.xlabel('K')
+    # plt.ylabel('J-funct')
+    # plt.show()
