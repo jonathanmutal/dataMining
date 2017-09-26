@@ -127,13 +127,44 @@ class Kmeans_WR:
         self.K = K
         self.data = data
         self.words = words
+        self.Km = KMeans(n_clusters=self.K, n_init=15)
+
+    def euclidean_distance(self, xi, centroid):
+        """
+        Euclidean distance ||xi-centroid||
+        xi -- array representing words
+        centroid -- array representing the centroid
+        """
+        return np.linalg.norm(xi - centroid)
+
+    def J(self, classifications, centroids):
+        """
+        Distortion functions
+        classifications -- c^1, ... , c^m
+        centroids -- centroids to be evaluated
+        """
+        m = len(self.data)
+
+        sumatory = 0
+        for idx, label in enumerate(classifications):
+            sumatory += self.euclidean_distance(self.data[idx], centroids[label])
+
+        return sumatory / m
+
 
     def fit(self):
-        self.Km = Km = KMeans(n_clusters=self.K).fit(self.data)
+        self.Km.fit(self.data)
 
         clusters = defaultdict(set)
-        for i, label in enumerate(Km.labels_):
+        for i, label in enumerate(self.Km.labels_):
             clusters[label].add(self.words[i])
 
         return clusters
 
+    def get_best_K(self, init=5, end=60, jump=5):
+        best_K = []
+        for k in np.arange(init, end+1, jump):
+            Km = KMeans(n_clusters=k, n_init=20).fit(self.data)
+            best_K.append((k, self.J(Km.labels_, Km.cluster_centers_)))
+
+        return best_K
