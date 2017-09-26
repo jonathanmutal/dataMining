@@ -5,6 +5,8 @@ import os
 import pickle
 
 from sklearn.feature_extraction import DictVectorizer
+from sklearn.preprocessing import normalize
+from sklearn.decomposition import TruncatedSVD
 
 from collections import defaultdict
 
@@ -46,25 +48,20 @@ class Featurize:
         self.features_dicts = []
         self.words = []
         self.sents = sents
-        self.triples = triples # don't forget about triples
+        self.triples = triples
         self.tagger = tagger
 
         if self.triples:
             self.__preproccess_triples()
 
-
     def __split_feat(self, feat):
         try:
             return (lambda x: (x.split('=')[0], x.split('=')[1]))(feat)
-        except:
-            raise IndexError
+        except IndexError:
+            return (feat, "")
 
     def __split_tags(self, tag):
-        print(tag)
-        try:
-            return map(self.__split_feat, tag.split('|'))
-        except:
-            return []
+        return map(self.__split_feat, tag.split('|'))
 
 
     def __preproccess_triples(self):
@@ -75,38 +72,54 @@ class Featurize:
         self.dict_words = dict_words = defaultdict(dict)
         for sent in sents:
             for idx, word in enumerate(sent):
+                base_word = word[0].lower()
                 pos = word[1]
-                base_word = word[0].lower() + '_' + pos
                 tag = word[2]
                 dep = word[3]
-                dep_word = word[4]
+                dep_word = word[4].lower()
                 if base_word not in dict_words.keys():
                     dict_words[base_word]['n'] = 1
-                    dict_words[base_word]['features'] = {}
+                    dict_words[base_word]['features'] = defaultdict(int)
                 else:
                     dict_words[base_word]['n'] += 1
 
                 features = dict_words[base_word]['features']
 
-                n = 0
-                while dep in features.keys():
-                    if n==0:
-                        dep = dep + str(n)
-                    else:
-                        dep = dep[:-1] + str(n)
-                    n += 1
+                # for the word
+                features[dep + '.' + dep_word] += 1
+                features['POS.' + pos] += 1
+                for tag_label, tag_feature in self.__split_tags(tag):
+                    features[tag_label + '.' + tag_feature] += 1
 
-                features[dep] = dep_word
-                features['POS'] = pos
-                # for tag_label, tag_feature in self.__split_tags(tag):
-                #     features[tag_label + str(n)] = tag_feature
+                # for previus_word
+                prevw, prevp, prevt = '<START>', '<START>', '<START>'
+                if idx != 0:
+                    prevw = sent[idx - 1][0]
+                    prevp = sent[idx - 1][1]
+                    prevt = sent[idx - 1][2]
+
+                features['word-1.' + prevw.lower()] += 1
+                features['POS-1.' + prevp] += 1
+                for tag_label, tag_feature in self.__split_tags(prevt):
+                    features[tag_label + '-1.' + tag_feature] += 1
+
+                nextw, nextp, nextt = '<END>', '<END>', '<END>'
+                if idx != len(sent) - 1:
+                    nextw = sent[idx + 1][0]
+                    nextp = sent[idx + 1][1]
+                    nextt = sent[idx + 1][2]
+
+                features['word+1.' + nextw] += 1
+                features['POS+1.' + nextp] += 1
+                for tag_label, tag_feature in self.__split_tags(nextt):
+                    features[tag_label + '+1.' + tag_feature] += 1
+
 
     def __featurize_triples(self):
         for word in self.dict_words:
             if self.dict_words[word]['n'] <= 3:
                 continue
-            else:
-                yield self.dict_words[word]['features'], word
+            yield dict(self.dict_words[word]['features']), word
 
     def __featurize_POS(self):
         sents = self.sents
@@ -153,12 +166,18 @@ class Featurize:
         with open(filename, 'wb') as f:
             pickle.dump(self, f)
 
-    def dict2matrix(self, sparse=False):
+    def dict2matrix(self, sparse=True):
         """
         first you should run feat2dic
         """
         assert(self.features_dicts != [])
 
         dictV = DictVectorizer(sparse=sparse)
-        matrix = dictV.fit_transform(self.features_dicts)
-        return matrix, self.words
+        self.matrix = dictV.fit_transform(self.features_dicts)
+
+    def normalizate(self):
+        self.matrix_normalizate = normalize(self.matrix)
+
+    def reduce(self, n_dim=300):
+        pca = TruncatedSVD(n_components=n_dim)
+        self.matrix_reduced = pca.fit_transform(self.matrix_normalizate)
