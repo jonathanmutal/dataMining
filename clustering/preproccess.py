@@ -26,12 +26,10 @@ class Normalization:
 
         # Should optimaze for big files
         with codecs.open(self.path, 'r', 'utf-8') as f:
-            n = 0
             corpus = ''
-            for line in f:
+            for n, line in enumerate(f):
                 corpus += line
-                n += 1
-                if n == 10:
+                if n == 500:
                     break
 
         corpus_sent = self.__sent_tokenizer.tokenize(corpus)
@@ -50,18 +48,32 @@ class Normalization:
             self.clean_corpus = [' '.join(self.__word_tokenizer.findall(sent)) for sent in self.clean_corpus]
 
 class TAG_norm(Normalization):
-    def __init__(self, path='/home/jonathan/dataMining/lavoztextodump.txt', taggerUse='standford'):
+    def __init__(self, path='/home/jonathan/dataMining/lavoztextodump.txt', taggerUse='standford', lemm=False):
         super().__init__(path=path)
 
         self.taggerUse = taggerUse
         if self.taggerUse == 'spacy':
-            self.nlp = spacy.load('es_core_web_md')
+            self.nlp = spacy.load('es')
+
+        self.lemm = lemm
+        if self.lemm:
+            self.__load_lemm()
+
+    def __load_lemm(self):
+        self.lemma_dict = lemma_dict = defaultdict(str)
+        with open('/home/jonathan/dataMining/lemmatization-es.txt') as f:
+            for line in f:
+                splited_line = line.split('\t')
+                lemma_dict[splited_line[1].strip()] = splited_line[0]
 
     def proccess_spacy(self, sents):
         for sent in sents:
             list_words = []
             for word in sent:
-                list_words.append((word.text, word.pos_, word.tag_, word.dep_, word.head.orth_))
+                base_word = word.text
+                if self.lemm:
+                    if base_word in self.lemma_dict.keys(): base_word = self.lemma_dict[base_word]
+                list_words.append((base_word, word.pos_, word.tag_, word.dep_, word.head.orth_))
             yield list_words
 
     def tagger(self):
