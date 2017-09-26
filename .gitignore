@@ -1,3 +1,7 @@
 dataMining.egg-info/
 clustering/__pycache__/
 *.pickle
+*.zip
+*.txt
+*.w2v
+stanford*
