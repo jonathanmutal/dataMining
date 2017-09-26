@@ -1,4 +1,6 @@
 from collections import defaultdict
+from sklearn.cluster import KMeans
+
 
 import numpy as np
 import sys
@@ -118,3 +120,20 @@ class Kmeans:
                 best_centroid = self.__centroids
 
         return best_i_classif, best_centroid
+
+
+class Kmeans_WR:
+    def __init__(self, K, data, words):
+        self.K = K
+        self.data = data
+        self.words = words
+
+    def fit(self):
+        self.Km = Km = KMeans(n_clusters=self.K).fit(self.data)
+
+        clusters = defaultdict(set)
+        for i, label in enumerate(Km.labels_):
+            clusters[label].add(self.words[i])
+
+        return clusters
+
