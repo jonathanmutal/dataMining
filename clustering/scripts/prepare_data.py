@@ -1,10 +1,6 @@
 from clustering.vectorizer import W2V_wrapper, Featurize
 from clustering.preproccess import Normalization, TAG_norm
-from clustering.clustering import Kmeans
-
-from sklearn.cluster import KMeans
-
-from collections import defaultdict
+from clustering.clustering import Kmeans_WR
 
 import pickle
 
@@ -17,19 +13,16 @@ def w2v_train_data():
     w2v_.train()
     w2v_.save()
 
-def save_dict_cluster1(filename):
-    tagger = TAG_norm()
+def save_dict(filename, taggerUse, triples, lemm=False, norm=False, red=False):
+    tagger = TAG_norm(taggerUse=taggerUse, lemm=lemm)
     tagg_data = tagger.tagger()
-    featurize = Featurize(tagg_data)
+    featurize = Featurize(tagg_data, tagger=taggerUse, triples=triples)
     featurize.feat2dic()
+    featurize.dict2matrix()
+    if norm: featurize.normalizate()
+    if red: featurize.reduce()
     featurize.class2pickle(filename)
-
-def save_dict_cluster2(filename):
-    tagger = TAG_norm(taggerUse='spacy')
-    tagg_data = tagger.tagger()
-    featurize = Featurize(tagg_data, triples=True)
-    featurize.feat2dic()
-    featurize.class2pickle(filename)
+    print(filename + ' already saved')
 
 def load_dict(filename):
     """
@@ -38,41 +31,50 @@ def load_dict(filename):
     features = []
     with open(filename, 'rb') as f:
         features = pickle.load(f)
+    print(filename + ' already loaded')
     return features
 
-def cluster1():
-    save_dict_cluster1('test_cl1.pickle')
-    v = load_dict('test_cl1.pickle')
-    matrix, words = v.dict2matrix(sparse=True)
-    Km = KMeans(n_clusters=30).fit(matrix)
-
-    clusters = defaultdict(set)
-    for i, label in enumerate(Km.labels_):
-        clusters[label].add(words[i])
+def k_means(k, matrix, words):
+    clusters = Kmeans_WR(K=k, data=matrix, words=words).fit()
 
     for i, clus in enumerate(clusters):
         print(i, clusters[clus])
+
+def cluster1():
+    save_dict('test_cl1.pickle', taggerUse='standford', triples=False)
+    v = load_dict('test_cl1.pickle')
+
+    k_means(40, v.matrix, v.words)
 
 def cluster2():
-    save_dict_cluster2('test_cl2.pickle')
-    print('Cluster2 save it')
+    save_dict('test_cl2.pickle', taggerUse='spacy', triples=True)
     v = load_dict('test_cl2.pickle')
-    print('Cluster2 load')
-    v.feat2dic()
-    matrix, words = v.dict2matrix(sparse=True)
-    Km = KMeans(n_clusters=30).fit(matrix)
 
-    clusters = defaultdict(set)
-    for i, label in enumerate(Km.labels_):
-        clusters[label].add(words[i])
+    k_means(40, v.matrix, v.words)
 
-    for i, clus in enumerate(clusters):
-        print(i, clusters[clus])
+def cluster3():
+    save_dict('test_cl3.pickle', taggerUse='spacy', triples=True, lemm=True)
+    v = load_dict('test_cl3.pickle')
+
+    k_means(40, v.matrix, v.words)
+
+def cluster4():
+    save_dict('test_cl4.pickle', taggerUse='spacy', triples=True, lemm=True, norm=True)
+    v = load_dict('test_cl4.pickle')
+
+    k_means(40, v.matrix_normalizate, v.words)
+
+def cluster5():
+    save_dict('test_cl5.pickle', taggerUse='spacy', triples=True, lemm=True, norm=True, red=True)
+    v = load_dict('test_cl5.pickle')
+
+    k_means(40, v.matrix_reduced, v.words)
 
 if __name__ == '__main__':
     cluster2()
-
-    # clusters, centroids = Kmeans(matrix, 20).get_best_fit()
-    # for cluster in clusters:
-    #     cl = set(map(lambda x: words[x], clusters[cluster]))
-    #     print(cluster, cl)
+    cluster3()
+    cluster4()
+    cluster5()
+    # v = load_dict('test_cl5.pickle')
+    # print(v.matrix_reduced[0:10], v.words[0:10])
+    # k_means(30, v.matrix, v.words)
