@@ -1,5 +1,5 @@
 dataMining.egg-info/
-clustering/__pycache__/
+__pycache__/
 *.pickle
 *.zip
 *.txt
