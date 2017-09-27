@@ -94,7 +94,7 @@ class Featurize:
                 # for previus_word
                 prevw, prevp, prevt = '<START>', '<START>', '<START>'
                 if idx != 0:
-                    prevw = sent[idx - 1][0]
+                    prevw = sent[idx - 1][0].lower()
                     prevp = sent[idx - 1][1]
                     prevt = sent[idx - 1][2]
 
@@ -105,7 +105,7 @@ class Featurize:
 
                 nextw, nextp, nextt = '<END>', '<END>', '<END>'
                 if idx != len(sent) - 1:
-                    nextw = sent[idx + 1][0]
+                    nextw = sent[idx + 1][0].lower()
                     nextp = sent[idx + 1][1]
                     nextt = sent[idx + 1][2]
 
