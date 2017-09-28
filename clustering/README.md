@@ -222,15 +222,25 @@ Podemos ver que el sentido la calidad de los clusters aumento significativamente
 Ejemplo:
 
 1 {'papa', 'rousseff', 'mubarak', 'sep', 'afip', 'falo', 'kadhafi', 'lula', 'uribe', 'presidenta', 'chávez', 'sarkozy', 'cotbn', 'macri', 'obama', 'assange', 'tsj', 'elettore', 'scotto', 'schiaretti', 'berlusconi', 'santos', 'vaticano'}
+
 7 {'partido', 'cristina', 'ramón', 'ministerio', 'luiz', 'néstor', 'olga', 'federación', 'programa', 'barack', 'sebastián', 'unión', 'mesa', 'juzgado', 'the', 'raúl', 'concejo', 'víctor', 'benedicto', 'instituto', 'secretaría', 'mauricio', 'jorge', 'villa', 'fuerzas', 'daniel', 'junta', 'marcelo', 'consejo', 'agencia', 'david', 'defensoría', 'juan', 'ee', 'claudio', 'héctor', 'casa', 'aguas', 'sergio', 'palacio', 'marcos'}
+
 20 {'num', 'cincar', 'dos', 'seis', 'ambos', 'numº', 'do', 'cuatro', 'nueve', 'tres', 'ocho', 'siete'}
+
 38 {'domingo', 'sábado', 'lunes', 'viernes', 'jueves', 'martes', 'miércoles'}
+
 50 {'giacomino', 'morales', 'alfonsín', 'mujica', 'piñera', 'timerman', 'moreno', 'cobos', 'carrió', 'campana', 'sota', 'serra', 'duhalde', 'oyarbide', 'correa', 'rossi', 'boudou', 'caminera', 'castro', 'zapatero', 'sanz', 'mestre', 'menem', 'méndez', 'aguad', 'scioli', 'vido', 'bush', 'silva', 'solanas', 'grahovac', 'menéndez', 'riutort', 'narváez', 'moyano', 'sosa', 'yanicelli', 'accastello', 'caserio', 'binner', 'xvi', 'kirchner'}
+
 51 {'posición', 'nene', 'resolución', 'ideo', 'documentación', 'suerte', 'controversia', 'impunidad', 'reunión', 'razón', 'facultar', 'decisión', 'estrategia', 'camioneta', 'comparación', 'tragedia', 'fecho', 'historia', 'investigación', 'incertidumbre', 'sequía', 'cuestión', 'excepción', 'ley', 'auditoría', 'condición', 'gente', 'votación', 'inflación', 'normativo', 'vez', 'ordenanza', 'verdad', 'visión', 'modalidad', 'mamá', 'ceremonia', 'manera', 'distanciar', 'misión', 'versión', 'discusión', 'actualidad', 'licitación', 'frase', 'intención', 'realidad', 'lectura', 'reglamentación', 'reacción', 'ocasión', 'oportunidad', 'solución', 'situación', 'iniciativo', 'información', 'convocatorio', 'etapa', 'noche', 'madrugar', 'oposición', 'tendencia', 'multitud', 'problemático'}
+
 86 {'chicago', 'unidos', 'libia', 'innviron', 'crese', 'mercosur', 'irán', 'epec', 'arizona', 'grecia', 'europa', 'botnia', 'k', 'dios', 'g-num', 'tamse', 'pro', 'suoem', 'latinoamérica', 'ejecutivo', 'cuba', 'gualeguaychú', 'suquía', 'wikileaks', 'apross', 'facebook', 'israel', 'unicameral', 'senado'}
+
 100 {'gaza', 'china', 'franco', 'unasur', 'rosario', 'uia', 'córdoba', 'egipto', 'justicia', 'ecuador', 'indec', 'dilma', 'américa', 'cta', 'bicentenario', 'washington', 'ong', 'francia', 'nación', 'españa', 'colombia', 'farc', 'argentina', 'anses', 'rusia', 'ucr', 'venezuela', 'bolivia', 'alemania', 'onu', 'brasil', 'toledo', 'ersep', 'jaime', 'pt'}
+
 101 {'cubano', 'venezolano', 'uruguayo', 'brasileño', 'argentino', 'griego', 'humanar', 'libio', 'chileno', 'electrónico', 'solidario', 'norteamericano', 'alemán', 'conservador', 'español', 'francés', 'mejicano', 'porteño', 'santafesino', 'ruso', 'colombiano', 'chino', 'inmobiliario', 'británico', 'boliviano', 'egipcio', 'italiano', 'climático', 'europeo'}
+
 103 {'punilla', 'colón', 'bogotá', 'malvinas', 'catamarca', 'ganancias', 'roca', 'paraguay', 'videla', 'ríos', 'chile', 'luna', 'unc', 'salta', 'clarín', 'flores', 'méxico', 'japón', 'ferreyra', 'india', 'fmi', 'cosquín', 'tucumán', 'calamuchita', 'madrid', 'alberdi', 'ue', 'pueyrredón', 'garzón', 'italia', 'perón', 'perú', 'rioja', 'belgrano', 'diputados', 'mendoza', 'parís', 'uruguay'}
+
 109 {'peso', 'euro', 'dólar'}
 
 
