@@ -167,7 +167,7 @@ Probe todas las opciones (salvo lo de cambiar la ingeniera de features), pero el
 | Proceso                         |  /  |
 |:------------------------------ :|:---:|
 | Tokenización                    | SI  |
-| StopWords                       | NO  |
+<!-- | StopWords                       | NO  |
 | Lemmatización                   | SI  |
 | Tagger                          | Spa |
 | Pos                             | SI  |
@@ -176,13 +176,13 @@ Probe todas las opciones (salvo lo de cambiar la ingeniera de features), pero el
 | Triplas de dependencias         | SI  |
 | K (K-means)                     | 120 |
 | Normalización de matriz         | NO  |
-| Reducción de dimensionalidad    | SI  |
+| Reducción de dimensionalidad    | SI  | -->
 
 [cluster](cl4.cl)
 
 Un par de ejemplo del cluster:
-0 {'nadie', 'nadar', 'quién', 'alguien', 'cuál'}
 
+* 0 {'nadie', 'nadar', 'quién', 'alguien', 'cuál'}
 * 1 {'ser'}
 * 2 {'num'}
 * 3 {'parir'}
