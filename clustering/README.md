@@ -68,22 +68,23 @@ Lo que podríamos concluir de este gráfico es que deberíamos usar 20 a 30 clus
 
 #### Primer intento
 
-| Proceso                         |  /  |
-|:------------------------------ :|:---:|
-| Tokenización                    | Si  |
+| Proceso | / |
+|:----:|:-:|
+| Tokenización | SI  |
 | StopWords                       | NO  |
 | Lemmatización                   | NO  |
 | Tagger                          | Sta |
 | Pos                             | SI  |
-| Palabras repetidas              | SI  |
 | Palabras con poca ocurrenciass  | SI  |
+| Palabras repetidas              | SI  |
 | Triplas de dependencias         | NO  |
 | K (K-means)                     | 27  |
 | Normalización de matriz         | NO  |
 | Reducción de dimensionalidad    | NO  |
 
 En este cluster no teníamos en cuenta ni la concuerrencia de una palabra ni si era repetida.
-[cluster1](cl1.cl). Se eliminaron las stop words... pero nada cambiaba.
+
+[CLUSTER](cl1.cl). Se eliminaron las stop words... pero nada cambiaba.
 
 ##### Conclusión
 
@@ -91,16 +92,16 @@ Este clustering no sirvio para nada porque los clusters eran sumamente grandes, 
 
 #### Segundo intento
 
-| Proceso                         |  /  |
-|:------------------------------ :|:---:|
-| Tokenización                    | Si  |
+| Proceso | / |
+|:----:|:-:|
+| Tokenización | SI  |
 | StopWords                       | NO  |
 | Lemmatización                   | NO  |
 | Tagger                          | Spa |
 | Pos                             | SI  |
 | Palabras con poca ocurrenciass  | NO  |
 | Palabras repetidas              | NO  |
-| Triplas de dependencias         | Si  |
+| Triplas de dependencias         | SI  |
 | K (K-means)                     | 27  |
 | Normalización de matriz         | NO  |
 | Reducción de dimensionalidad    | NO  |
@@ -123,9 +124,9 @@ Ejemplo de cluster:
 
 #### Tercer Intento
 
-| Proceso                         |  /  |
-|:------------------------------ :|:---:|
-| Tokenización                    | SI  |
+| Proceso | / |
+|:----:|:-:|
+| Tokenización | SI  |
 | StopWords                       | NO  |
 | Lemmatización                   | SI  |
 | Tagger                          | Spa |
@@ -138,7 +139,8 @@ Ejemplo de cluster:
 | Reducción de dimensionalidad    | NO  |
 
 Lo importante en este cluster fue que lemmatice. Esto causa que sólo el lemma este en el cluster mejorando la calidad de los clusters.
-[cluster 3](cl3.cl)
+
+El [CLUSTER](cl3.cl)
 
 ##### Conclusión
 
