@@ -164,9 +164,9 @@ Probe todas las opciones (salvo lo de cambiar la ingeniera de features), pero el
 
 ##### Intento con reducción de dimensionalidad
 
-| Proceso                         |  /  |
-|:------------------------------ :|:---:|
-| Tokenización                    | SI  |
+| Proceso | / |
+|:----:|:-:|
+| Tokenización | SI  |
 | StopWords                       | NO  |
 | Lemmatización                   | SI  |
 | Tagger                          | Spa |
@@ -204,9 +204,9 @@ Podemos ver que el sentido la calidad de los clusters aumento significativamente
 ##### Intento con normalización de vectores
 
 
-| Proceso                         |  /  |
-|:------------------------------ :|:---:|
-| Tokenización                    | SI  |
+| Proceso | / |
+|:----:|:-:|
+| Tokenización | SI  |
 | StopWords                       | NO  |
 | Lemmatización                   | SI  |
 | Tagger                          | Spa |
@@ -219,8 +219,7 @@ Podemos ver que el sentido la calidad de los clusters aumento significativamente
 | Reducción de dimensionalidad    | NO  |
 
 
-
-[cluster](cl5.cl)
+[CLUSTER](cl5.cl)
 
 Ejemplo:
 
@@ -257,5 +256,5 @@ Gracias a la normalización el problema de los singletones y clusters muy grande
 | Normalización de matriz         | SI  |
 | Reducción de dimensionalidad    | SI  |
 
-[cluser](cl6.cl)
+El [CLUSTER](cl6.cl).
 
