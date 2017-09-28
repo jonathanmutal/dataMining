@@ -263,8 +263,5 @@ Gracias a la normalización el problema de los singletones y clusters muy grande
 
 El [CLUSTER](cl6.cl).
 
-###### Ejemplo:
-Parecido al anterior
-
-###### Conclusión
-Parecido al anterior.
+###### Conclusión:
+Como no quiero hacerlo tan largo al informe se podría decir que es parecido al anterior pero con menos calidad.
