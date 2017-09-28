@@ -222,7 +222,7 @@ Un par de ejemplo del cluster:
 Podemos ver que el sentido la calidad de los clusters aumento significativamente. Sin embargo seguimos con el probelema del tercer intento.
 
 
-###### Intento con normalización de vectores
+##### Intento con normalización de vectores
 
 
 | Proceso                         |  /  |
@@ -268,7 +268,7 @@ Ejemplo:
 109 {'peso', 'euro', 'dólar'}
 
 
-####### Conclusión
+###### Conclusión
 Gracias a la normalización el problema de los singletones y clusters muy grandes había desaparecido. Claramente aumento en gran medida la calidad del clustering. El único problema sería (a priori) la velocidad de Kmeans.
 
 
@@ -276,7 +276,9 @@ Gracias a la normalización el problema de los singletones y clusters muy grande
 
 
 | Proceso                         |  /  |
+
 |:------------------------------ :|:---:|
+
 | Tokenización                    | SI  |
 | StopWords                       | NO  |
 | Lemmatización                   | SI  |
