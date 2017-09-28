@@ -4,7 +4,7 @@
 
 En este trabajo hicimos [clustering](https://es.wikipedia.org/wiki/Algoritmo_de_agrupamiento) sobre un corpus el cual es un conjunto de notas de [la voz del interior](http://www.lavoz.com) (esta en el directorio del repositorio). Para ello tuve que preprocesar las palabras para normalizarlas y poder realizar un análisis morfosintáctico/sintáctico. Luego vectorizar las palabras utilizando algún críterio de reducción de dimensionalidad.
 Por una desición propia fui combinando varias formas de normalización junto con vectorización. Más adelante iré explicando los métodos utilizados y como fue mejorando la calidad de los clusters.
-Voy a dividir mi trabajo en diferentes intentos explicando el mejorando de la calidad del clustering.
+Voy a dividir mi trabajo en diferentes intentos explicando el mejoramiento de la calidad del clustering.
 
 ### Pre-procesamiento
 ----------------------------------------------------------------------------------------------------
@@ -22,8 +22,7 @@ En algunos casos utlice lemmatización. Para ello utilice [lexiconista](http://w
 
 #### Taggeador y análisis morfosintáctico
 
-Para taggear utilice dos taggeadores para comparar resultados.
-El primer taggeador (que sólo lo utilice para datos pequeños) fue el de [standford](https://nlp.stanford.edu/software/tagger.shtml) y [spacy](https://spacy.io). Además este último hace un análisis de identidad y triplas de dependencia.
+Para taggear utilice dos taggeadores para comparar resultados. El primero de ellos fue [standford](https://nlp.stanford.edu/software/tagger.shtml) y luego [spacy](https://spacy.io). Además este último hace un análisis de identidad y triplas de dependencia.
 
 #### Eliminación de stopwords
 
@@ -49,7 +48,7 @@ En el siguiente ejemplo se muestra los features con sus respectivas ocurrencias
 
 #### Normalización de los vectores
 
-Debido a que utilice ocurrencias de los features fue muy importante normalizar los vectores. Luego de correr k-means descubrí que muchos clusters tenían un sólo elemento por lo que noté que esas palabras tenían una gran ocurrencia en el corpus. Al tener muchas ocurrencias el conteo de features es muy elevada de modo que esa palabra queda sóla en el espacio. Para ello utilice una herramienta en [sklearn](http://scikit-learn.org/stable/modules/preprocessing.html).
+Debido a que utilice ocurrencias de los features fue muy importante normalizar los vectores. Luego de correr k-means descubrí que muchos clusters tenían un sólo elemento por lo que noté que esas palabras tenían una gran ocurrencia en el corpus. Al tener muchas ocurrencias el conteo de features es muy elevada de modo que esa palabra queda sóla en el espacio. Para ello utilice una herramienta de [sklearn](http://scikit-learn.org/stable/modules/preprocessing.html).
 
 #### Reducción de dimensionalidad
 
@@ -106,7 +105,8 @@ Este clustering no sirvio para nada porque los clusters eran sumamente grandes, 
 | Normalización de matriz         | NO  |
 | Reducción de dimensionalidad    | NO  |
 
-Debido a que todavía no quize aumentar el número de cluster probe una segunda alternativa. La primera diferencia es que empecé utilizando triplas de dependencia por lo que va a grupar morfologicamente. Además los features serán contados por número de ocurrencias. Elimine palabras repetidas.
+Debido a que todavía no quise aumentar el número de cluster probe una segunda alternativa. La primera diferencia es que empecé utilizando triplas de dependencia por lo que va a grupar morfologicamente. Además los features serán contados por número de ocurrencias. Elimine palabras repetidas.
+
 [CLUSTER](cl2.cl)
 
 ##### Conclusión
@@ -154,7 +154,7 @@ El [CLUSTER](cl3.cl)
 
 ##### Conclusión
 
-Los clusters empezaron a tener más sentido, sin embargo en algunos casos empezaron a quedar singletones y en otros casos clusters extremadamente grandes. Cinco clusters quedaron muy grandes y el resto quedó singletones o muy pequeños. A continuación listo algunos:
+Los clusters empezaron a tener más sentido, sin embargo en algunos casos empezaron a quedar singletones y en otros casos clusters extremadamente grandes. Cinco clusters quedaron muy grandes y el resto quedó singletones o muy pequeños.
 
 Después de ver el ejemplo pude ver que las palabras que aparecían muchas veces quedaban solas. La explicación que le pude dar fue que las ocurrencias de features eran muy altas por lo que las palabras quedaban solas en el espacio.
 Ejemplo: num aparece 106744 con alrededor de 31700 features.
@@ -166,9 +166,11 @@ Ejemplo: num aparece 106744 con alrededor de 31700 features.
 Debido a que no quiero hacer eterno el informe voy a contar por arriba un par de intentos.
 El problema de los singetones era muy grave. ¿Que alternativas tenía? Normalizar los vectores, cambiar totalmente la ingeniería de features (no era viable debido a la falta de tiempo), intentar con reducción de dimensionalidad (se que no iba a cambiar mucho). Además clusters quedaban sumamente grandes e ileigles por lo que había que aumentar el K en K-means. Después de varios intentos pude establecer que de 120~130 daba bastante bien.
 También me di cuenta que si dejaba las palabras con más de 150 ocurrencias los clusters daban mejor.
-Probe todas las opciones (salvo lo de cambiar la ingeniera de features), pero el que dio mejor resultado fue normalizar sin reducción de dimensionalidad. 
+Probe todas las opciones (salvo lo de cambiar la ingeniera de features), pero el que dio mejor resultado fue normalizar sin reducción de dimensionalidad, es decir cambiar número de clusters, quitar las palabras con menos de 150 ocurrencias y normalizar los vectores de palabras. 
 
 ##### Intento con reducción de dimensionalidad
+
+Reducí a 300 dimensiones.
 
 | Proceso | / |
 |:----:|:-:|
@@ -204,7 +206,7 @@ Probe todas las opciones (salvo lo de cambiar la ingeniera de features), pero el
 
 ###### Conclusión
 
-Podemos ver que el sentido la calidad de los clusters aumento significativamente. Sin embargo seguimos con el probelema del tercer intento.
+Podemos ver que el sentido la calidad de los clusters aumento significativamente. Sin embargo seguimos con el probelema del tercer intento (singletones).
 
 
 ##### Intento con normalización de vectores
@@ -264,4 +266,4 @@ Gracias a la normalización el problema de los singletones y clusters muy grande
 El [CLUSTER](cl6.cl).
 
 ###### Conclusión:
-Como no quiero hacerlo tan largo al informe se podría decir que es parecido al anterior pero con menos calidad.
+Como no quiero hacerlo tan largo al informe se podría decir que es parecido al anterior pero con menos calidad. Lo positivo de reducir dimensionalidad es que Kmeans corre a mayor velocidad.
