@@ -243,22 +243,6 @@ Gracias a la normalización el problema de los singletones y clusters muy grande
 
 ###### Intento con normalización de vectores y reducción de dimensionalidad
 
-[cluser](cl6.cl)
-
-| Proceso                         |  /  |
-|:------------------------------ :|:---:|
-| Tokenización                    | SI  |
-| StopWords                       | NO  |
-| Lemmatización                   | SI  |
-| Tagger                          | Spa |
-| Pos                             | SI  |
-| Palabras con poca ocurrenciass  | NO  |
-| Palabras repetidas              | NO  |
-| Triplas de dependencias         | SI  |
-| K (K-means)                     | 120 |
-| Normalización de matriz         | SI  |
-| Reducción de dimensionalidad    | SI  |
-
 | Proceso | / |
 |:----:|:-:|
 | Tokenización | SI  |
@@ -273,4 +257,5 @@ Gracias a la normalización el problema de los singletones y clusters muy grande
 | Normalización de matriz         | SI  |
 | Reducción de dimensionalidad    | SI  |
 
+[cluser](cl6.cl)
 
