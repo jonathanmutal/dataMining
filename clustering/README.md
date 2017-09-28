@@ -107,13 +107,13 @@ Este clustering no sirvio para nada porque los clusters eran sumamente grandes, 
 | Reducción de dimensionalidad    | NO  |
 
 Debido a que todavía no quize aumentar el número de cluster probe una segunda alternativa. La primera diferencia es que empecé utilizando triplas de dependencia por lo que va a grupar morfologicamente. Además los features serán contados por número de ocurrencias. Elimine palabras repetidas.
-[cluster2](cl2.cl)
+[CLUSTER](cl2.cl)
 
 ##### Conclusión
 
 Empezó a tener un poco más de sentido el clustering, sin embargo quería que una palabra en diferente modo sea una sola palabra (caso de cluster 11 y 22). Había avanzado mucho con respecto al primer intento.
 
-Ejemplo de cluster:
+###### Ejemplo:
 
 * 2 {'gobierno', 'ley', 'parte', 'vez', 'ciudad', 'provincia'}
 * 8 {'si'}
@@ -142,9 +142,7 @@ Lo importante en este cluster fue que lemmatice. Esto causa que sólo el lemma e
 
 El [CLUSTER](cl3.cl)
 
-##### Conclusión
-
-Los clusters empezaron a tener más sentido, sin embargo en algunos casos empezaron a quedar singletones y en otros casos clusters extremadamente grandes. Cinco clusters quedaron muy grandes y el resto quedó singletones o muy pequeños. A continuación listo algunos:
+###### Ejemplo:
 
 * 1 {'ser'}
 * 2 {'num'}
@@ -154,8 +152,14 @@ Los clusters empezaron a tener más sentido, sin embargo en algunos casos empeza
 * 16 {'mil', 'do', 'tres'}
 * 23 {'mismo', 'cada', 'alguno'}
 
-Ahí pude ver que las palabras que aparecían muchas veces quedaban solas. La explicación que le pude dar fue que las ocurrencias de features eran muy altas por lo que las palabras quedaban solas en el espacio.
+##### Conclusión
+
+Los clusters empezaron a tener más sentido, sin embargo en algunos casos empezaron a quedar singletones y en otros casos clusters extremadamente grandes. Cinco clusters quedaron muy grandes y el resto quedó singletones o muy pequeños. A continuación listo algunos:
+
+Después de ver el ejemplo pude ver que las palabras que aparecían muchas veces quedaban solas. La explicación que le pude dar fue que las ocurrencias de features eran muy altas por lo que las palabras quedaban solas en el espacio.
 Ejemplo: num aparece 106744 con alrededor de 31700 features.
+
+
 
 #### Últimos intentos
 
@@ -180,9 +184,9 @@ Probe todas las opciones (salvo lo de cambiar la ingeniera de features), pero el
 | Normalización de matriz         | NO  |
 | Reducción de dimensionalidad    | SI  |
 
-[cluster](cl4.cl)
+[CLUSTER](cl4.cl)
 
-Un par de ejemplo del cluster:
+###### Ejemplo:
 
 * 0 {'nadie', 'nadar', 'quién', 'alguien', 'cuál'}
 * 1 {'ser'}
@@ -223,9 +227,8 @@ Podemos ver que el sentido la calidad de los clusters aumento significativamente
 
 [CLUSTER](cl5.cl)
 
-Ejemplo:
+###### Ejemplo:
 
-* 1 {'papa', 'rousseff', 'mubarak', 'sep', 'afip', 'falo', 'kadhafi', 'lula', 'uribe', 'presidenta', 'chávez', 'sarkozy', 'cotbn', 'macri', 'obama', 'assange', 'tsj', 'elettore', 'scotto', 'schiaretti', 'berlusconi', 'santos', 'vaticano'}
 * 7 {'partido', 'cristina', 'ramón', 'ministerio', 'luiz', 'néstor', 'olga', 'federación', 'programa', 'barack', 'sebastián', 'unión', 'mesa', 'juzgado', 'the', 'raúl', 'concejo', 'víctor', 'benedicto', 'instituto', 'secretaría', 'mauricio', 'jorge', 'villa', 'fuerzas', 'daniel', 'junta', 'marcelo', 'consejo', 'agencia', 'david', 'defensoría', 'juan', 'ee', 'claudio', 'héctor', 'casa', 'aguas', 'sergio', 'palacio', 'marcos'}
 * 20 {'num', 'cincar', 'dos', 'seis', 'ambos', 'numº', 'do', 'cuatro', 'nueve', 'tres', 'ocho', 'siete'}
 * 38 {'domingo', 'sábado', 'lunes', 'viernes', 'jueves', 'martes', 'miércoles'}
@@ -242,7 +245,7 @@ Ejemplo:
 Gracias a la normalización el problema de los singletones y clusters muy grandes había desaparecido. Claramente aumento en gran medida la calidad del clustering. El único problema sería (a priori) la velocidad de Kmeans.
 
 
-###### Intento con normalización de vectores y reducción de dimensionalidad
+##### Intento con normalización de vectores y reducción de dimensionalidad
 
 | Proceso | / |
 |:----:|:-:|
@@ -260,3 +263,8 @@ Gracias a la normalización el problema de los singletones y clusters muy grande
 
 El [CLUSTER](cl6.cl).
 
+###### Ejemplo:
+Parecido al anterior
+
+###### Conclusión
+Parecido al anterior.
