@@ -115,10 +115,15 @@ Empezó a tener un poco más de sentido el clustering, sin embargo quería que u
 Ejemplo de cluster:
 
 2 {'gobierno', 'ley', 'parte', 'vez', 'ciudad', 'provincia'}
+
 8 {'si'}
+
 11 {'años', 'millones'}
+
 17 {'aires', 'argentina', 'villa', 'josé', 'unidos', 'justicia', 'capital', 'federal', 'buenos', 'policía', 'san', 'luis', 'río', 'cámara', 'juan', 'maría', 'carlos', 'cristina', 'nación', 'general', 'daniel', 'fernández', 'schiaretti', 'kirchner'}
+
 22 {'año', 'país'}
+
 21 {'información', 'seguridad', 'cantidad', 'zona', 'situación', 'salud', 'gestión', 'medida', 'relación', 'sociedad', 'historia', 'decisión', 'personas', 'horas', 'manera', 'agua', 'planta', 'empresas', 'causa', 'producción', 'hora', 'forma', 'gente', 'política', 'campaña', 'familia', 'escuela', 'mayoría', 'construcción', 'empresa', 'vida', 'posibilidad', 'investigación', 'mujer', 'obra', 'semana', 'casa', 'deuda', 'oposición', 'falta', 'reunión', 'educación', 'cuenta', 'crisis', 'presidenta', 'muerte', 'actividad'}
 
 #### Tercer Intento
@@ -145,11 +150,17 @@ Lo importante en este cluster fue que lemmatice. Esto causa que sólo el lemma e
 Los clusters empezaron a tener más sentido, sin embargo en algunos casos empezaron a quedar singletones y en otros casos clusters extremadamente grandes. Cinco clusters quedaron muy grandes y el resto quedó singletones o muy pequeños. A continuación listo algunos:
 
 1 {'ser'}
+
 2 {'num'}
+
 4 {'pesos'}
+
 8 {'deber', 'ir'}
+
 9 {'defender', 'bajar', 'votar', 'afectar', 'tras', 'cerrar', 'hablar', 'advertir', 'recordar', 'funcionar', 'quedo', 'definir', 'solicitar', 'llamar', 'evitar', 'depender', 'vario', 'aparecer', 'acompañar', 'apoyar', 'declarar', 'aplicar', 'precisar', 'elegir', 'analizar', 'adelantar', 'paso', 'addmitir', 'asistir', 'requerir', 'controlar', 'proponer', 'convertir', 'surgir', 'ubicar', 'aceptar', 'sacar', 'opinar', 'crecer', 'investigar', 'apuntar', 'insistir', 'rechazar', 'ninguno', 'preguntar', 'levantar', 'reclamar', 'estudiar', 'corresponder', 'acusar', 'utilizar', 'calificar', 'coincidir', 'reducir', 'destacar', 'principal', 'ocurrir', 'escuchar', 'confirmar', 'publicar', 'cincar', 'remarcar', 'superar', 'instalar', 'ayudar', 'caer', 'conocer', 'anticipar', 'impulsar', 'estimar', 'subir', 'impedir', 'responder', 'resolver', 'mejorar', 'entregar', 'plantear', 'manifestar', 'ingresar', 'cuestionar', 'creer', 'actuar', 'elevar', 'reconocer', 'detener', 'convocar', 'reunir', 'ratificar', 'perder', 'expresar', 'comprar', 'parecer', 'referir', 'obtener', 'aprobar', 'avanzar', 'sufrir', 'iniciar', 'prever', 'jugar', 'continuar', 'imponer', 'suceder', 'significar', 'sumar', 'destinar', 'distinto', 'participar', 'morir', 'cumplir', 'establecer', 'conseguir', 'ofrecer', 'exigir', 'revelar', 'ocupar', 'trasladar', 'implicar', 'lanzar', 'intentar', 'cubrir', 'integrar', 'cuyo', 'viajar', 'cuatro', 'concluir', 'abrir', 'económico', 'costar', 'ordenar', 'incrementar', 'busccar', 'cobrar', 'provocar', 'mientras', 'crear', 'construir', 'encabezar', 'ganar', 'necesitar', 'decidir', 'sino', 'representar', 'pretender', 'aclarar', 'fijar', 'alcanzar', 'determinar', 'enviar', 'suponer', 'negar', 'obligar', 'disponer', 'incluir', 'figurar', 'privar', 'vender', 'manejar', 'anunciar', 'demostrar', 'empezar', 'aportar', 'entender', 'servir', 'comentar', 'pensar', 'mostrar', 'asumir', 'registrar', 'garantizar'}
+
 16 {'mil', 'do', 'tres'}
+
 23 {'mismo', 'cada', 'alguno'}
 
 Ahí pude ver que las palabras que aparecían muchas veces quedaban solas. La explicación que le pude dar fue que las ocurrencias de features eran muy altas por lo que las palabras quedaban solas en el espacio.
@@ -182,16 +193,27 @@ Probe todas las opciones (salvo lo de cambiar la ingeniera de features), pero el
 
 Un par de ejemplo del cluster:
 0 {'nadie', 'nadar', 'quién', 'alguien', 'cuál'}
+
 1 {'ser'}
+
 2 {'num'}
+
 3 {'parir'}
+
 4 {'hacer'}
+
 5 {'haber'}
+
 6 {'llegar', 'realizar'}
+
 22 {'schiaretti', 'policía', 'kirchner', 'argentina', 'justicia', 'nación'}
+
 44 {'menos', 'casi'}
+
 94 {'comenzar', 'permitir', 'volver', 'parecer', 'seguir', 'venir'}
+
 108 {'además', 'luego', 'después'}
+
 118 {'ocho', 'siete', 'nueve', 'seis'}
 
 
@@ -201,6 +223,7 @@ Podemos ver que el sentido la calidad de los clusters aumento significativamente
 
 
 ###### Intento con normalización de vectores
+
 
 | Proceso                         |  /  |
 |:------------------------------ :|:---:|
@@ -215,6 +238,7 @@ Podemos ver que el sentido la calidad de los clusters aumento significativamente
 | K (K-means)                     | 120 |
 | Normalización de matriz         | SI  |
 | Reducción de dimensionalidad    | NO  |
+
 
 
 [cluster](cl5.cl)
@@ -249,6 +273,8 @@ Gracias a la normalización el problema de los singletones y clusters muy grande
 
 
 ###### Intento con normalización de vectores y reducción de dimensionalidad
+
+
 | Proceso                         |  /  |
 |:------------------------------ :|:---:|
 | Tokenización                    | SI  |
@@ -261,6 +287,6 @@ Gracias a la normalización el problema de los singletones y clusters muy grande
 | Triplas de dependencias         | SI  |
 | K (K-means)                     | 120 |
 | Normalización de matriz         | SI  |
-| Reducción de dimensionalidad    | NO  |
+| Reducción de dimensionalidad    | SI  |
 
 [cluser](cl6.cl)
