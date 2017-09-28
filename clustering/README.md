@@ -167,7 +167,7 @@ Probe todas las opciones (salvo lo de cambiar la ingeniera de features), pero el
 | Proceso                         |  /  |
 |:------------------------------ :|:---:|
 | Tokenización                    | SI  |
-<!-- | StopWords                       | NO  |
+| StopWords                       | NO  |
 | Lemmatización                   | SI  |
 | Tagger                          | Spa |
 | Pos                             | SI  |
@@ -176,7 +176,7 @@ Probe todas las opciones (salvo lo de cambiar la ingeniera de features), pero el
 | Triplas de dependencias         | SI  |
 | K (K-means)                     | 120 |
 | Normalización de matriz         | NO  |
-| Reducción de dimensionalidad    | SI  | -->
+| Reducción de dimensionalidad    | SI  |
 
 [cluster](cl4.cl)
 
@@ -243,6 +243,7 @@ Gracias a la normalización el problema de los singletones y clusters muy grande
 
 ###### Intento con normalización de vectores y reducción de dimensionalidad
 
+[cluser](cl6.cl)
 
 | Proceso                         |  /  |
 |:------------------------------ :|:---:|
@@ -258,12 +259,3 @@ Gracias a la normalización el problema de los singletones y clusters muy grande
 | Normalización de matriz         | SI  |
 | Reducción de dimensionalidad    | SI  |
 
-[cluser](cl6.cl)
-
-
-
-
-
-| intento 1| jajaa |
-|:--------:|:-----:|
-| a1       |   a2  |
