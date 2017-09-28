@@ -259,3 +259,6 @@ Gracias a la normalización el problema de los singletones y clusters muy grande
 | Normalización de matriz         | SI  |
 | Reducción de dimensionalidad    | SI  |
 
+| hola | / |
+|:----:|:-:|
+| prue | a |
