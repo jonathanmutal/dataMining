@@ -50,6 +50,7 @@ class Featurize:
         self.sents = sents
         self.triples = triples
         self.tagger = tagger
+        self.matrix_normalizate = None
 
         if self.triples:
             self.__preproccess_triples()
@@ -94,18 +95,18 @@ class Featurize:
                 # for previus_word
                 prevw, prevp, prevt = '<START>', '<START>', '<START>'
                 if idx != 0:
-                    prevw = sent[idx - 1][0]
+                    prevw = sent[idx - 1][0].lower()
                     prevp = sent[idx - 1][1]
                     prevt = sent[idx - 1][2]
 
-                features['word-1.' + prevw.lower()] += 1
+                features['word-1.' + prevw] += 1
                 features['POS-1.' + prevp] += 1
                 for tag_label, tag_feature in self.__split_tags(prevt):
                     features[tag_label + '-1.' + tag_feature] += 1
 
                 nextw, nextp, nextt = '<END>', '<END>', '<END>'
                 if idx != len(sent) - 1:
-                    nextw = sent[idx + 1][0]
+                    nextw = sent[idx + 1][0].lower()
                     nextp = sent[idx + 1][1]
                     nextt = sent[idx + 1][2]
 
@@ -117,7 +118,7 @@ class Featurize:
 
     def __featurize_triples(self):
         for word in self.dict_words:
-            if self.dict_words[word]['n'] <= 3:
+            if self.dict_words[word]['n'] <= 150:
                 continue
             yield dict(self.dict_words[word]['features']), word
 
@@ -179,5 +180,9 @@ class Featurize:
         self.matrix_normalizate = normalize(self.matrix)
 
     def reduce(self, n_dim=300):
+
         pca = TruncatedSVD(n_components=n_dim)
-        self.matrix_reduced = pca.fit_transform(self.matrix_normalizate)
+        if self.matrix_normalizate:
+       	    self.matrix_reduced = pca.fit_transform(self.matrix_normalizate)
+        else:
+            self.matrix_reduced = pca.fit_transform(self.matrix) 
