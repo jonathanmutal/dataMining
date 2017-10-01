@@ -181,8 +181,8 @@ class Featurize:
 
     def reduce(self, n_dim=300):
 
-        pca = TruncatedSVD(n_components=n_dim)
+        lsa = TruncatedSVD(n_components=n_dim)
         if self.matrix_normalizate:
-       	    self.matrix_reduced = pca.fit_transform(self.matrix_normalizate)
+       	    self.matrix_reduced = lsa.fit_transform(self.matrix_normalizate)
         else:
-            self.matrix_reduced = pca.fit_transform(self.matrix) 
+            self.matrix_reduced = lsa.fit_transform(self.matrix) 
