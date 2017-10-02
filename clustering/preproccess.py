@@ -17,7 +17,7 @@ pattern = r'''(?ix)    # set flag to allow verbose regexps
 regex = re.compile(pattern)
 
 class Normalization:
-    def __init__(self, path='/home/jonathan/dataMining/lavoztextodump.txt',
+    def __init__(self, path='/home/jmutal/dataMining/lavoztextodump.txt',
                  word_tokenizer=regex,
                  sent_tokenizer=LazyLoader('tokenizers/punkt/spanish.pickle')):
         self.path = path
@@ -26,11 +26,7 @@ class Normalization:
 
         # Should optimaze for big files
         with codecs.open(self.path, 'r', 'utf-8') as f:
-            corpus = ''
-            for n, line in enumerate(f):
-                corpus += line
-                if n == 500:
-                    break
+            corpus = f.read()
 
         corpus_sent = self.__sent_tokenizer.tokenize(corpus)
         self.clean_corpus = [re.sub('&#\d+;', '', sents) for sents in corpus_sent]
@@ -48,7 +44,7 @@ class Normalization:
             self.clean_corpus = [' '.join(self.__word_tokenizer.findall(sent)) for sent in self.clean_corpus]
 
 class TAG_norm(Normalization):
-    def __init__(self, path='/home/jonathan/dataMining/lavoztextodump.txt', taggerUse='standford', lemm=False):
+    def __init__(self, path='/home/jmutal/dataMining/lavoztextodump.txt', taggerUse='standford', lemm=False):
         super().__init__(path=path)
 
         self.taggerUse = taggerUse
@@ -61,7 +57,7 @@ class TAG_norm(Normalization):
 
     def __load_lemm(self):
         self.lemma_dict = lemma_dict = defaultdict(str)
-        with open('/home/jonathan/dataMining/lemmatization-es.txt') as f:
+        with open('/home/jmutal/dataMining/lemmatization-es.txt') as f:
             for line in f:
                 splited_line = line.split('\t')
                 lemma_dict[splited_line[1].strip()] = splited_line[0]
@@ -79,11 +75,11 @@ class TAG_norm(Normalization):
     def tagger(self):
         self.tokenize(self.taggerUse)
         if self.taggerUse == 'standford':
-            tagger = StanfordPOSTagger('/home/jonathan/dataMining/stanford-postagger-full-2017-06-09/models/spanish-distsim.tagger',
-                               '/home/jonathan/dataMining/stanford-postagger-full-2017-06-09/stanford-postagger-3.8.0.jar')
+            tagger = StanfordPOSTagger('/home/jmutal/dataMining/stanford-postagger-full-2017-06-09/models/spanish-distsim.tagger',
+                               '/home/jmutal/dataMining/stanford-postagger-full-2017-06-09/stanford-postagger-3.8.0.jar')
             tagged_sents = tagger.tag_sents(self.clean_corpus)
         else:
-            tagged_sents = self.nlp.pipe(self.clean_corpus, n_threads=4)
+            tagged_sents = self.nlp.pipe(self.clean_corpus, n_threads=8)
             tagged_sents = self.proccess_spacy(tagged_sents)
 
         return self.dig2num(tagged_sents)
