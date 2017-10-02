@@ -3,7 +3,7 @@ from clustering.preproccess import Normalization, TAG_norm
 from clustering.clustering import Kmeans_WR
 
 import pickle
-import matplotlib.pyplot as plt
+import pandas as pd
 
 def w2v_train_data():
     data = Normalization()
@@ -61,9 +61,9 @@ def cluster3():
 
 def cluster4():
     save_dict('test_cl4.pickle', taggerUse='spacy', triples=True, lemm=True, norm=True)
-    v = load_dict('test_cl4.pickle')
+    #v = load_dict('test_cl4.pickle')
 
-    k_means(40, v.matrix_normalizate, v.words)
+    #k_means(120, v.matrix_normalizate, v.words)
 
 def cluster5():
     save_dict('test_cl5.pickle', taggerUse='spacy', triples=True, lemm=True, norm=True, red=True)
@@ -76,7 +76,16 @@ if __name__ == '__main__':
     # cluster3()
     # cluster4()
     # cluster5()
-    v = load_dict('test_cl5.pickle')
+    v = load_dict('test_cl4.pickle')
+
+    words, occur = zip(*((word, v.dict_words[word]['n']) for word in v.dict_words))
+    df = pd.DataFrame({'n':occur, 'word':words})
+    print(df.sort_values(by='n', ascending=False).head(150)) 
+    print(df.sort_values(by='n').head(150)) 
+    print(df['n'].mean())
+    print(df[df['n'].isin(range(1,151))]['n'].count(), df['n'].count())
+    print('{}'.format(df[df['n'].isin(range(1,151))]['n'].count() / df['n'].count() * 100))
+    #k_means(120, v.matrix_normalizate, v.words)
 
 
 ##### GET BEST K ########
