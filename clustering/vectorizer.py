@@ -124,7 +124,7 @@ class Featurize:
 
     def __featurize_triples(self):
         for word in self.dict_words:
-            if self.dict_words[word]['n'] <= 150:
+            if self.dict_words[word]['n'] <= 150 or self.dict_words[word]['n'] >= 14000:
                 continue
             yield dict(self.dict_words[word]['features']), word
 
