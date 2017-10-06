@@ -4,9 +4,13 @@ from nltk.corpus import stopwords
 
 from collections import defaultdict
 
+from string import punctuation
+
 import spacy
 import codecs
 import re
+
+STOPWORDS = stopwords.words('spanish')
 
 pattern = r'''(?ix)    # set flag to allow verbose regexps
     (?:sr\.|sra\.|mr\.|mrs\.)
@@ -34,7 +38,7 @@ class Normalization:
     def dig2num(self, sents):
         ready_sents = []
         for sent in sents:
-            ready_sents.append([(re.sub('\d+', 'NUM', word[0]),) + word[1:] for word in sent if word[0].lower() not in stopwords.words('spanish')])
+            ready_sents.append([(re.sub('\d+', 'NUM', word[0]),) + word[1:] for word in sent if word[0].lower() not in STOPWORDS])
         return ready_sents
 
     def tokenize(self, tagg='standford'):
@@ -83,3 +87,42 @@ class TAG_norm(Normalization):
             tagged_sents = self.proccess_spacy(tagged_sents)
 
         return self.dig2num(tagged_sents)
+
+class WC_token:
+    """
+    Tokenize wiki corpus.
+    path -- path where the files are
+    file -- file you want to tokenize
+    """
+    def __init__(self, path="/home/jmutal/dataMining/tagged.es",
+                 file="spanishEtiquetado1"):
+        with open('/home/jmutal/dataMining/tagged.es/spanishEtiquetado1') as f:
+            raw_data = f.read()
+
+        self.count_words = defaultdict(int)
+        self.STOPWORDS = STOPWORDS + ["ENDOFARTICLE"]
+        self.STOPWORDS += list(punctuation)
+        self.__split_data(raw_data)
+
+    def __split_word(self, word):
+        return word.split(" ")
+ 
+    def __split_data(self, raw_data):
+        sentences = []
+        sent = []
+        for word in raw_data.split("\n"):
+            if not word:
+                if len(sent) >= 2:
+                    sentences.append(sent)
+                sent = []
+                continue
+            if word.startswith('<doc') or word.startswith('</doc>'):
+                continue
+            word_, lemma, tag, synsent = self.__split_word(word)
+            if word_ in self.STOPWORDS:
+                continue
+            sent.append((word_, lemma, tag, synsent))
+            self.count_words[lemma] += 1
+
+        self.splited_data = sentences
+
