@@ -44,12 +44,19 @@ class W2V_wrapper:
 
 
 class Featurize:
-    def __init__(self, sents, tagger='standford', triples=False):
+    """
+    To make features from words.
+    tagger -- tagger you will use. At the moment standford or spacy (spacy is better)
+    triples -- if you want to use triples
+    count_words -- should be a dictionary where keys are lemmas (if you want to reduce manually dimenson)
+    """
+    def __init__(self, sents, tagger='standford', triples=False, count_words=None):
         self.features_dicts = []
         self.words = []
         self.sents = sents
         self.triples = triples
         self.tagger = tagger
+        self.count_words = count_words
         self.matrix_normalizate = None
 
         if self.triples:
@@ -115,7 +122,6 @@ class Featurize:
                 for tag_label, tag_feature in self.__split_tags(nextt):
                     features[tag_label + '+1.' + tag_feature] += 1
 
-
     def __featurize_triples(self):
         for word in self.dict_words:
             if self.dict_words[word]['n'] <= 150:
@@ -179,7 +185,7 @@ class Featurize:
     def normalizate(self):
         self.matrix_normalizate = normalize(self.matrix)
 
-    def reduce(self, n_dim=300):
+    def reduce(self, n_dim=700):
         lsa = TruncatedSVD(n_components=n_dim)
         if self.matrix_normalizate:
        	    self.matrix_reduced = lsa.fit_transform(self.matrix_normalizate)
