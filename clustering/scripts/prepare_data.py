@@ -60,10 +60,10 @@ def cluster3():
     k_means(40, v.matrix, v.words)
 
 def cluster4():
-    save_dict('test_cl4.pickle', taggerUse='spacy', triples=True, lemm=True, norm=True)
-    #v = load_dict('test_cl4.pickle')
+    save_dict('test_cl4.60.pickle', taggerUse='spacy', triples=True, lemm=True, norm=True)
+    v = load_dict('test_cl4.60.pickle')
 
-    #k_means(120, v.matrix_normalizate, v.words)
+    k_means(60, v.matrix_normalizate, v.words)
 
 def cluster5():
     save_dict('test_cl5.pickle', taggerUse='spacy', triples=True, lemm=True, norm=True, red=True)
@@ -71,22 +71,28 @@ def cluster5():
 
     k_means(40, v.matrix_reduced, v.words)
 
+def get_stadistic(dict_words):
+    words, occur = zip(*((word, v.dict_words[word]['n']) for word in v.dict_words))
+    df = pd.DataFrame({'n':occur, 'word':words})
+    print(df.sort_values(by='n', ascending=False).head(150))
+    print(df.sort_values(by='n').head(150))
+    print('150>=x<14000 mean: {}'.format(df[df['n'].isin(range(150,14000))]['n'].mean()))
+    print('150>=x<14000: {}'.format(df[df['n'].isin(range(150,14000))]['n'].count() / df['n'].count() * 100))
+    print('<150 mean: {}'.format(df['n'].mean()))
+    print('<150: {}'.format(df[df['n'].isin(range(1,151))]['n'].count() / df['n'].count() * 100))
+    print('150<=x<1001:{}'.format(df[df['n'].isin(range(150,1001))]['n'].count() / df['n'].count() * 100))
+    print('150<=x<1001 mean: {}'.format(df[df['n'].isin(range(150,1001))]['n'].mean()))
+
 if __name__ == '__main__':
     # cluster2()
     # cluster3()
-    # cluster4()
+    cluster4()
     # cluster5()
-    v = load_dict('test_cl4.pickle')
 
-    words, occur = zip(*((word, v.dict_words[word]['n']) for word in v.dict_words))
-    df = pd.DataFrame({'n':occur, 'word':words})
-    print(df.sort_values(by='n', ascending=False).head(150)) 
-    print(df.sort_values(by='n').head(150)) 
-    print(df['n'].mean())
-    print(df[df['n'].isin(range(1,151))]['n'].count(), df['n'].count())
-    print('{}'.format(df[df['n'].isin(range(1,151))]['n'].count() / df['n'].count() * 100))
-    #k_means(120, v.matrix_normalizate, v.words)
 
+########### STADISTIC ###########
+    # v = load_dict('test_cl4.pickle')
+    # get_stadistic(v.dict_words)
 
 ##### GET BEST K ########
     # Kmean = Kmeans_WR(10, v.matrix_reduced, v.words)
