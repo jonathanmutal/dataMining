@@ -118,7 +118,7 @@ class Featurize:
 
     def __featurize_triples(self):
         for word in self.dict_words:
-            if self.dict_words[word]['n'] <= 150:
+            if self.dict_words[word]['n'] <= 150 or self.dict_words[word]['n'] >= 14000:
                 continue
             yield dict(self.dict_words[word]['features']), word
 
@@ -179,7 +179,7 @@ class Featurize:
     def normalizate(self):
         self.matrix_normalizate = normalize(self.matrix)
 
-    def reduce(self, n_dim=300):
+    def reduce(self, n_dim=700):
         lsa = TruncatedSVD(n_components=n_dim)
         if self.matrix_normalizate:
        	    self.matrix_reduced = lsa.fit_transform(self.matrix_normalizate)
