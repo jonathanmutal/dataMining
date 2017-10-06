@@ -409,3 +409,7 @@ Primero que todo mostraré las ocurrencias de las palabras:
 <150: 94.68869348965272
 150<=x<1001:4.261479705124789
 150<=x<1001 mean: 375.16298457690704
+
+
+The objective of variable selection is three-fold: improving the prediction performance of the predictors, providing faster and more cost-effective predictors, and providing a better understanding of
+the underlying process that generated the data.
