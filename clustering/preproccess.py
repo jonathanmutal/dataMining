@@ -126,9 +126,12 @@ class WC_token:
                 continue
             word_clean = self.__clean_word(word_)
             lemma_clean = self.__clean_word(lemma)
+            if " " in lemma_clean:
+                # Some noise words.
+                continue
             sent.append((word_clean, lemma_clean, tag, synsent))
             if 'NUM' in word_clean:
-                ### For things like 12km. I don't care about it.
+                # For things like 12km. I don't care about it.
                 self.count_words['NUM'] += 1
             else:
                 self.count_words[lemma_clean] += 1
