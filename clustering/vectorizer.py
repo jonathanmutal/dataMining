@@ -50,17 +50,99 @@ class Featurize:
     triples -- if you want to use triples
     count_words -- should be a dictionary where keys are lemmas (if you want to reduce manually dimenson)
     """
-    def __init__(self, sents, tagger='standford', triples=False, count_words=None):
+    def __init__(self, sents, tagger='standford', triples=False, count_words=None, semantic=False):
         self.features_dicts = []
         self.words = []
         self.sents = sents
         self.triples = triples
         self.tagger = tagger
         self.count_words = count_words
+        self.semantic = semantic
         self.matrix_normalizate = None
 
         if self.triples:
             self.__preproccess_triples()
+
+        if self.tagger == "wiki":
+            self.__preproccess_wiki(manually_reduce=count_words is not None)
+
+    def __featurize_wiki(self):
+        for word in self.dict_words:
+            if self.semantic:
+                yield dict(self.dict_words[word]['features']), word, self.dict_words['syntac']
+            else:
+                yield dict(self.dict_words[word]['features']), word, self.dict_words['tag']
+
+    def __preproccess_wiki(self, manually_reduce=False, lemmatize=True):
+        sents = self.sents
+        self.dict_words = dict_words = defaultdict(int)
+        for sent in sents:
+            for idx, word in enumerate(sent):
+                base_word = word[0].lower()
+                lemma = word[1]
+                tag = word[2]
+                syntac = word[3]
+
+                if manually_reduce and self.count_words[lemma] < 150:
+                    continue
+
+                if lemmatize:
+                    base_word = lemma
+
+                if self.semantic and not int(syntac):
+                    continue
+
+                if base_word not in dict_words.keys():
+                    dict_words[base_word]['features'] = defaultdict(int)
+                    dict_words[base_word]['tag'] = tag
+                    dict_words[base_word]['syntac'] = syntac
+
+                features = dict_words[base_word]['features']
+
+                # for previus_word
+                prevW, prevL, prevT, prevS = '<START>', '<START>', '<START>', '<START>'
+                if idx != 0:
+                    prevW = sent[idx - 1][0].lower()
+                    prevL = sent[idx - 1][1]
+                    prevT = sent[idx - 1][2]
+                    prevS = sent[idx - 1][3]
+
+                nextW, nextL, nextT, nextS = '<END>', '<END>', '<END>', '<END>'
+                if idx != len(sent) - 1:
+                    nextW = sent[idx + 1][0].lower()
+                    nextL = sent[idx + 1][1]
+                    nextT = sent[idx + 1][2]
+                    nextS = sent[idx + 1][3]
+
+                if lemmatize:
+                    prevW = prevL
+                    nextW = nextL
+
+                if not self.semantic:
+                    features['SEM.' + syntac] += 1
+
+                    if int(prevS):
+                        features['SEM-1.' + prevS] += 1
+                    if int(nextS):
+                        features['SEM+1.' + nextS] += 1
+                else:
+                    features['TAG.' + tag] += 1
+                    features['TAG[:2].' + tag[:2]] += 1
+
+                    features['TAG-1.' + prevT] += 1
+                    features['TAG+1.' + nextT] += 1
+
+                    features['TAG-1[:2].' + prevT[:2]] += 1
+                    features['TAG+1[:2].' + nextT[:2]] += 1
+
+                if manually_reduce:
+                    if prevL == '<START>' or self.count_words[prevL] >= 150:
+                        features['word-1.' + prevW] += 1
+                    if nextL == '<END>' or self.count_words[nextL] >= 150:
+                        features['word+1.' + nextW] += 1
+                else:
+                    features['word-1.' + prevW] += 1
+                    features['word+1.' + nextW] += 1
 
     def __split_feat(self, feat):
         try:
@@ -70,7 +152,6 @@ class Featurize:
 
     def __split_tags(self, tag):
         return map(self.__split_feat, tag.split('|'))
-
 
     def __preproccess_triples(self):
         """
@@ -163,11 +244,13 @@ class Featurize:
 
                 yield onex, word[0].lower()
 
-    def feat2dic(self):
+    def feat2dic(self, wiki_corpus=False):
         if self.triples:
             self.features_dicts, self.words = zip(*[(dicts, word) for dicts, word in self.__featurize_triples()])
-        else:
+        elif not self.triples and not wiki_corpus:
             self.features_dicts, self.words =  zip(*[(dicts, word) for dicts, word in self.__featurize_POS()])
+        else:
+            self.features_dicts, self.words, self.label = zip(*[(dicts, word, label) for dicts, word, label in self.__featurize_wiki()])
 
     def class2pickle(self, filename):
         with open(filename, 'wb') as f:
