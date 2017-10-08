@@ -126,7 +126,7 @@ class WC_token:
                 continue
             word_clean = self.__clean_word(word_)
             lemma_clean = self.__clean_word(lemma)
-            if " " in lemma_clean:
+            if " " in lemma_clean or ""==lemma_clean:
                 # Some noise words.
                 continue
             sent.append((word_clean, lemma_clean, tag, synsent))
