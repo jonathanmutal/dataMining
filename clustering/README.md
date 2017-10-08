@@ -277,7 +277,7 @@ El método de feature supervisado que utilice fue eliminar las palabras por el n
 
 A continuación mostraré como tome la desición.
 
-Primero que todo mostraré las ocurrencias de las palabras:
+Primero que todo mostraré las ocurrencias de las palabras (wiki corpus):
 
 106744 num
 78739 ser
