@@ -94,9 +94,9 @@ class WC_token:
     path -- path where the files are
     file -- file you want to tokenize
     """
-    def __init__(self, path="/home/jmutal/dataMining/tagged.es",
+    def __init__(self, path="/home/jonathan/dataMining/tagged.es",
                  file="spanishEtiquetado1"):
-        with open('/home/jmutal/dataMining/tagged.es/spanishEtiquetado1') as f:
+        with open(path + "/" + file) as f:
             raw_data = f.read()
 
         self.count_words = defaultdict(int)
