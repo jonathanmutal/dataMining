@@ -1,5 +1,5 @@
 from clustering.vectorizer import W2V_wrapper, Featurize
-from clustering.preproccess import Normalization, TAG_norm
+from clustering.preproccess import Normalization, TAG_norm, WC_token
 from clustering.clustering import Kmeans_WR
 
 import pickle
@@ -24,6 +24,12 @@ def save_dict(filename, taggerUse, triples, lemm=False, norm=False, red=False):
     if red: featurize.reduce()
     featurize.class2pickle(filename)
     print(filename + ' already saved')
+
+def save_wiki(filename):
+    tokenize = WC_token()
+    print(tokenize.splited_data)
+    print(tokenize.count_words)
+    get_stadistic(tokenize.count_words, wiki=True)
 
 def load_dict(filename):
     """
@@ -71,8 +77,11 @@ def cluster5():
 
     k_means(40, v.matrix_reduced, v.words)
 
-def get_stadistic(dict_words):
-    words, occur = zip(*((word, v.dict_words[word]['n']) for word in v.dict_words))
+def get_stadistic(dict_words, wiki=False):
+    if wiki:
+        words, occur = zip(*((word, dict_words[word]) for word in dict_words))
+    else:
+        words, occur = zip(*((word, dict_words[word]['n']) for word in dict_words))
     df = pd.DataFrame({'n':occur, 'word':words})
     print(df.sort_values(by='n', ascending=False).head(150))
     print(df.sort_values(by='n').head(150))
@@ -86,8 +95,9 @@ def get_stadistic(dict_words):
 if __name__ == '__main__':
     # cluster2()
     # cluster3()
-    cluster4()
+    # cluster4()
     # cluster5()
+    save_wiki('cl1.wiki.cl')
 
 
 ########### STADISTIC ###########
