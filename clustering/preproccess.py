@@ -121,8 +121,12 @@ class WC_token:
             word_, lemma, tag, synsent = self.__split_word(word)
             if word_ in self.STOPWORDS:
                 continue
-            sent.append((word_, lemma, tag, synsent))
-            self.count_words[lemma] += 1
+            word_clean = re.sub('\d+', 'NUM', ' '.join(regex.findall(word_)))
+            sent.append((word_clean, lemma, tag, synsent))
+            if 'NUM' in word_clean:
+                self.count_words['NUM'] += 1
+            else:
+                self.count_words[lemma] += 1
 
         self.splited_data = sentences
 
