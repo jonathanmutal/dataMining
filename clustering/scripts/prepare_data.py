@@ -27,8 +27,6 @@ def save_dict(filename, taggerUse, triples, lemm=False, norm=False, red=False):
 
 def save_wiki(filename):
     tokenize = WC_token()
-    print(tokenize.splited_data)
-    print(tokenize.count_words)
     get_stadistic(tokenize.count_words, wiki=True)
 
 def load_dict(filename):
