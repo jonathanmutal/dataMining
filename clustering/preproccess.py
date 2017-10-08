@@ -128,9 +128,10 @@ class WC_token:
             lemma_clean = self.__clean_word(lemma)
             sent.append((word_clean, lemma_clean, tag, synsent))
             if 'NUM' in word_clean:
+                ### For things like 12km. I don't care about it.
                 self.count_words['NUM'] += 1
             else:
-                self.count_words[lemma] += 1
+                self.count_words[lemma_clean] += 1
 
         self.splited_data = sentences
 
