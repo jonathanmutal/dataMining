@@ -270,6 +270,9 @@ Como no quiero hacerlo tan largo al informe se podría decir que es parecido al 
 
 ------------------------------------------------------------------------------------------------------
 # Práctico 2: Continuación
+### Descripción del sampleo del corpus anotado
+
+En este [paper](http://www.lsi.upc.edu/~nlp/papers/reese10.pdf) describe el corpus anotado de la wiki.
 
 ### Método de feature supervisado
 
@@ -421,5 +424,8 @@ Primero que todo mostraré las ocurrencias de las palabras (wiki corpus):
 Hay muchas palabras basura en el corpus, por lo que el porcentaje de palabras con menores a 150 ocurrencias es de 97%. Deje solo las palabras con ocurrencias entre 150 a 14000, que son el 2.27%. A pesar que es un porcentaje bajo del corpus, podemos estar conformes debido a la ley de Zipf.
 
 
-The objective of variable selection is three-fold: improving the prediction performance of the predictors, providing faster and more cost-effective predictors, and providing a better understanding of
-the underlying process that generated the data.
+### Feature Selection
+
+El objetivo de la selección de features es aumentar la perfomance de los "predictores" (debido a que evita el overfitting), aumentar la velocidad de los "predictores" y tratar de aumentar el entendimiento de los datos (al reducir la dimensionalidad se hace más entendible).
+
+##### 
