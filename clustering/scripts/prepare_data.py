@@ -96,14 +96,24 @@ def get_stadistic(dict_words, wiki=False):
     print('150<=x<1001 mean: {}'.format(df[df['n'].isin(range(150,1001))]['n'].mean()))
 
 def cluster6():
+    print("##### CLUSTER UNSUPERVISED #####")
     save_wiki('test_cl1.wiki.cl')
     v = load_dict('test_cl1.wiki.cl')
+    v.reduce()
+
+    k_means(130, v.matrix_reduced, v.words)
+
+    print("###### CLUSTER SUPERVISED - TAGS #######")
+    v = load_dict('test_cl1.wiki.cl')
+    v.reduce_supervised()
 
     k_means(130, v.matrix_reduced, v.words)
 
 def cluster7():
+    print("###### CLUSTER SUPERVISED - SEMANTIC ########")
     save_wiki('test_cl1.wiki.sem.cl', semantic=True)
     v = load_dict('test_cl1.wiki.sem.cl')
+    v.reduce_supervised()
 
     k_means(130, v.matrix_reduced, v.words)
 
@@ -112,16 +122,18 @@ if __name__ == '__main__':
     # cluster3()
     # cluster4()
     # cluster5()
-    # save_wiki('cl1.wiki.sem.cl', semantic=True)
-
+      print("##### CLUSTER 6 #########")
+      cluster6()
+      print("###### CLUSTER 7 ########")
+      cluster7()
 
 ########### STADISTIC ###########
-    v = load_dict('cl1.wiki.sem.cl')
-    print(v.words, v.label)
-    print(v.dict_words)
-    print(v.matrix_normalizate)
-    v.reduce()
-    print(v.matrix_reduced)
+    # v = load_dict('cl1.wiki.sem.cl')
+    # print(v.words, v.label)
+    # print(v.dict_words)
+    # print(v.matrix_normalizate)
+    # v.reduce()
+    # print(v.matrix_reduced)
 
 ##### GET BEST K ########
     # Kmean = Kmeans_WR(10, v.matrix_reduced, v.words)
