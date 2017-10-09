@@ -270,13 +270,20 @@ Como no quiero hacerlo tan largo al informe se podría decir que es parecido al 
 
 ------------------------------------------------------------------------------------------------------
 # Práctico 2: Continuación
+
+Como ya vimos en el anterior práctico que algunos hiper parámetros funcionaban, dejaremos esos.
+
 ### Descripción del sampleo del corpus anotado
 
 En este [paper](http://www.lsi.upc.edu/~nlp/papers/reese10.pdf) describe el corpus anotado de la wiki.
 
+### Preproceso
+
+El preproceso fue igual que en el primer práctico.
+
 ### Método de feature supervisado
 
-El objetivo de la selección de features es aumentar la perfomance de los "predictores" (debido a que evita el overfitting), aumentar la velocidad de los "predictores" y tratar de aumentar el entendimiento de los datos (al reducir la dimensionalidad se hace más entendible).
+El objetivo de la selección de features es aumentar la perfomance de los "predictores" (debido a que evita el overfitting), aumentar la velocidad de ellos y tratar de aumentar el entendimiento de los datos (al reducir la dimensionalidad se hace más entendible).
 
 #### Primer método: Heurística propia
 
@@ -425,12 +432,17 @@ Primero que todo mostraré las ocurrencias de las palabras (wiki corpus):
 
     % de palabras entre 150 a 14000 palabras: 2.27%
 
-Hay muchas palabras basura en el corpus, por lo que el porcentaje de palabras con menores a 150 ocurrencias es de 97%. Deje solo las palabras con ocurrencias entre 150 a 14000, que son el 2.27%. A pesar que es un porcentaje bajo del corpus, podemos estar conformes debido a la ley de Zipf (nos indica que la mayoría de las palabras han sido vista una sola vez).
+Hay muchas palabras basura en el corpus, por lo que el porcentaje de palabras con menores a 150 ocurrencias es de 97%. Deje solo las palabras con ocurrencias entre 150 a 14000 ya que la desviación de ocurrencias es menor en ese rango. A pesar que tome una parte pequeña del corpus (2.27%), puedo estar conforme debido a la ley de Zipf (nos indica que la mayoría de las palabras han sido vista una sola vez).
 
 
 #### Segundo método: chi2
 
 Computa estadísticas chi-cuadrado entre features no negativos y clases. Estas estadisticas pueden ser utilizadas para seleccionar n features. Utilice la librería de [sklearn](http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.chi2.html#sklearn.feature_selection.chi2). Para las clases utilizo las etiquetas del corpus anotado de la wiki. Haré una prueba tanto con clases tag como con los sentidos wordnet. Los features que he utilizado han sido muy parecidos al del práctico anterior. Iré explicando en cada intento los features elegidos.
+
+#### Segundo método: LSA
+
+Aplica reducción lineal utilizando el promedio de cada valor truncado, es decir trabaja mediante count/tf-id matrices. Utilice la librería de [sklearn](http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html).
+
 
 ### Primer intento
 
@@ -446,7 +458,47 @@ Computa estadísticas chi-cuadrado entre features no negativos y clases. Estas e
 | Triplas de dependencias         | NO  |
 | K (K-means)                     | 120 |
 | Normalización de matriz         | SI  |
-| Reducción de dimensionalidad    | NO-Supervisada  |
+| Reducción de dimensionalidad    | NO-Supervisada (LSA) |
+
+##### Features
+
+Algunos features que he utilizado fueron:
+
+1) Syntac de la palabra actual, anterior y siguiente.
+
+2) Lemma de la palabra actual, anterior y siguiente.
+
+##### Cluster
+
+Es el [cluster 6 unsupervised](clusters_supervised.out)
+
+##### Ejemplo
+
+0 {'marino', 'marítimo'}
+
+2 {'lograr', 'venir', 'alcanzar', 'adquirir', 'llegar'}
+
+4 {'gozar', 'disfrutar'}
+
+5 {'estatus', 'rango', 'distinción', 'posición', 'prestigio'}
+
+8 {'reclamar', 'exigir'}
+
+20 {'conclusión', 'término', 'fin'}
+
+27 {'célebre', 'famoso'}
+
+93 {'caracterizar', 'calificar'}
+
+103 {'unificar', 'unir'}
+
+111 {'padre', 'papa'}
+
+112 {'pared', 'muro'}
+
+##### Conclusión
+
+Al parecer los clusters son bastantes semánticos. Esto se debe principalmente a que: los features son semánticos y el truncated SVD transforma los espacios de las matrices en espacios semánticos (esta transformación se conoce como LSA). Los clusters con pocas palabras tienen mucho sentido, sin embargo hay varios clusters con una cantidad enorme de palabras sin ningún sentido. Una explicación puede ser que esas palabra no aparecen la cantidad suficiente de veces y por lo tanto son agrupadas juntas.
 
 
 ### Segundo Intento
@@ -463,7 +515,7 @@ Computa estadísticas chi-cuadrado entre features no negativos y clases. Estas e
 | Triplas de dependencias         | NO  |
 | K (K-means)                     | 120 |
 | Normalización de matriz         | SI  |
-| Reducción de dimensionalidad    | Supervisada  |
+| Reducción de dimensionalidad    | Supervisada (chi2) |
 | Clase de reducción              | tag |
 
 
@@ -482,7 +534,7 @@ Computa estadísticas chi-cuadrado entre features no negativos y clases. Estas e
 | Triplas de dependencias         | NO  |
 | K (K-means)                     | 120 |
 | Normalización de matriz         | SI  |
-| Reducción de dimensionalidad    | Supervisada  |
+| Reducción de dimensionalidad    | Supervisada (chi2) |
 | Clase de reducción              | syntac |
 
 ### Cuarto intento
