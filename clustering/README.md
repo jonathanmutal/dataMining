@@ -681,4 +681,4 @@ Es el [cluster unsupervised - MORE FEATURES](clusters_supervised.out)
 
 ##### Conclusión
 
-La calidad de los features ha aumentado y han bajado los clusters con una sola palabra. Podemos ver que la técnica de feature selection supervisado elegido no es el adecuado para este problema.
+La calidad de los features ha aumentado y han bajado los clusters con una sola palabra. Podemos ver que la técnica de feature selection supervisado elegida no es la adecuada para este problema.
