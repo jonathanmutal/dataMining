@@ -25,9 +25,14 @@ def save_dict(filename, taggerUse, triples, lemm=False, norm=False, red=False):
     featurize.class2pickle(filename)
     print(filename + ' already saved')
 
-def save_wiki(filename):
+def save_wiki(filename, semantic=False):
     tokenize = WC_token()
-    get_stadistic(tokenize.count_words, wiki=True)
+    featurize = Featurize(tokenize.splited_data, tagger="wiki", count_words=tokenize.count_words, semantic=semantic)
+    featurize.feat2dic(wiki_corpus=True)
+    featurize.dict2matrix()
+    featurize.normalizate()
+    featurize.class2pickle(filename)
+    print(filename + ' already saved')
 
 def load_dict(filename):
     """
@@ -90,17 +95,33 @@ def get_stadistic(dict_words, wiki=False):
     print('150<=x<1001:{}'.format(df[df['n'].isin(range(150,1001))]['n'].count() / df['n'].count() * 100))
     print('150<=x<1001 mean: {}'.format(df[df['n'].isin(range(150,1001))]['n'].mean()))
 
+def cluster6():
+    save_wiki('test_cl1.wiki.cl')
+    v = load_dict('test_cl1.wiki.cl')
+
+    k_means(130, v.matrix_reduced, v.words)
+
+def cluster7():
+    save_wiki('test_cl1.wiki.sem.cl', semantic=True)
+    v = load_dict('test_cl1.wiki.sem.cl')
+
+    k_means(130, v.matrix_reduced, v.words)
+
 if __name__ == '__main__':
     # cluster2()
     # cluster3()
     # cluster4()
     # cluster5()
-    save_wiki('cl1.wiki.cl')
+    # save_wiki('cl1.wiki.sem.cl', semantic=True)
 
 
 ########### STADISTIC ###########
-    # v = load_dict('test_cl4.pickle')
-    # get_stadistic(v.dict_words)
+    v = load_dict('cl1.wiki.sem.cl')
+    print(v.words, v.label)
+    print(v.dict_words)
+    print(v.matrix_normalizate)
+    v.reduce()
+    print(v.matrix_reduced)
 
 ##### GET BEST K ########
     # Kmean = Kmeans_WR(10, v.matrix_reduced, v.words)

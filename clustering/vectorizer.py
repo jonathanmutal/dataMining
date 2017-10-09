@@ -1,5 +1,7 @@
 import gensim.models.word2vec as w2v
 
+import numpy as np
+
 import os
 
 import pickle
@@ -7,6 +9,7 @@ import pickle
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.preprocessing import normalize
 from sklearn.decomposition import TruncatedSVD
+from sklearn.feature_selection import chi2
 
 from collections import defaultdict
 
@@ -53,29 +56,30 @@ class Featurize:
     def __init__(self, sents, tagger='standford', triples=False, count_words=None, semantic=False):
         self.features_dicts = []
         self.words = []
+        self.label = []
+        self.matrix_normalizate = []
         self.sents = sents
         self.triples = triples
         self.tagger = tagger
         self.count_words = count_words
         self.semantic = semantic
-        self.matrix_normalizate = None
 
         if self.triples:
             self.__preproccess_triples()
 
         if self.tagger == "wiki":
-            self.__preproccess_wiki(manually_reduce=count_words is not None)
+            self.__preproccess_wiki(manually_reduce=self.count_words is not None)
 
     def __featurize_wiki(self):
         for word in self.dict_words:
             if self.semantic:
-                yield dict(self.dict_words[word]['features']), word, self.dict_words['syntac']
+                yield dict(self.dict_words[word]['features']), word, self.dict_words[word]['syntac']
             else:
-                yield dict(self.dict_words[word]['features']), word, self.dict_words['tag']
+                yield dict(self.dict_words[word]['features']), word, self.dict_words[word]['tag']
 
     def __preproccess_wiki(self, manually_reduce=False, lemmatize=True):
         sents = self.sents
-        self.dict_words = dict_words = defaultdict(int)
+        self.dict_words = dict_words = defaultdict(dict)
         for sent in sents:
             for idx, word in enumerate(sent):
                 base_word = word[0].lower()
@@ -83,13 +87,13 @@ class Featurize:
                 tag = word[2]
                 syntac = word[3]
 
-                if manually_reduce and self.count_words[lemma] < 150:
+                if manually_reduce and (self.count_words[lemma] < 150 or self.count_words[lemma] >= 14000):
                     continue
 
                 if lemmatize:
                     base_word = lemma
 
-                if self.semantic and not int(syntac):
+                if not int(syntac):
                     continue
 
                 if base_word not in dict_words.keys():
@@ -100,14 +104,14 @@ class Featurize:
                 features = dict_words[base_word]['features']
 
                 # for previus_word
-                prevW, prevL, prevT, prevS = '<START>', '<START>', '<START>', '<START>'
+                prevW, prevL, prevT, prevS = '<START>', '<START>', '<START>', '1'
                 if idx != 0:
                     prevW = sent[idx - 1][0].lower()
                     prevL = sent[idx - 1][1]
                     prevT = sent[idx - 1][2]
                     prevS = sent[idx - 1][3]
 
-                nextW, nextL, nextT, nextS = '<END>', '<END>', '<END>', '<END>'
+                nextW, nextL, nextT, nextS = '<END>', '<END>', '<END>', '1'
                 if idx != len(sent) - 1:
                     nextW = sent[idx + 1][0].lower()
                     nextL = sent[idx + 1][1]
@@ -136,9 +140,9 @@ class Featurize:
                     features['TAG+1[:2].' + nextT[:2]] += 1
 
                 if manually_reduce:
-                    if prevL == '<START>' or self.count_words[prevL] >= 150:
+                    if prevL == '<START>' or (self.count_words[prevL] >= 150 and self.count_words[prevL] <= 14000):
                         features['word-1.' + prevW] += 1
-                    if nextL == '<END>' or self.count_words[nextL] >= 150:
+                    if nextL == '<END>' or (self.count_words[nextL] >= 150 and self.count_words[prevL] <= 14000):
                         features['word+1.' + nextW] += 1
                 else:
                     features['word-1.' + prevW] += 1
@@ -270,7 +274,11 @@ class Featurize:
 
     def reduce(self, n_dim=700):
         lsa = TruncatedSVD(n_components=n_dim)
-        if self.matrix_normalizate:
-       	    self.matrix_reduced = lsa.fit_transform(self.matrix_normalizate)
+        if np.shape(self.matrix_normalizate)[0]:
+            self.matrix_reduced = lsa.fit_transform(self.matrix_normalizate)
         else:
-            self.matrix_reduced = lsa.fit_transform(self.matrix) 
+            self.matrix_reduced = lsa.fit_transform(self.matrix)
+
+    def reduce_supervised(self):
+        assert(len(self.matrix_normalizate) == len(self.label) == len(self.words))
+        self.matrix_reduced = chi2(self.matrix_normalizate, self.label)
