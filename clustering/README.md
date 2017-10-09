@@ -434,6 +434,7 @@ Primero que todo mostraré las ocurrencias de las palabras (wiki corpus):
 
 Hay muchas palabras basura en el corpus, por lo que el porcentaje de palabras con menores a 150 ocurrencias es de 97%. Deje solo las palabras con ocurrencias entre 150 a 14000 ya que la desviación de ocurrencias es menor en ese rango. A pesar que tome una parte pequeña del corpus (2.27%), puedo estar conforme debido a la ley de Zipf (nos indica que la mayoría de las palabras han sido vista una sola vez).
 
+Cabe aclarar que siempre se aplica este método (aunque este implicito).
 
 #### Segundo método: chi2
 
@@ -518,6 +519,38 @@ Al parecer los clusters son bastantes semánticos. Esto se debe principalmente a
 | Reducción de dimensionalidad    | Supervisada (chi2) |
 | Clase de reducción              | tag |
 
+##### Features
+
+Debido a que utilizaremos como clases los syntac de las palabras para selección supervisada elegí los siguientes features:
+
+1) TAG de la palabra actual, anterior y siguiente.
+
+2) Primera dos letras del TAG de la palabra actual, anterior y siguiente.
+
+3) Lemma de la palabra actual, anterior y siguiente.
+
+##### Clusters
+
+0 {'peruano', 'conservador', 'psicológico', 'magnético', 'mexicano', 'latino', 'demográfico', 'colombiano', 'cardíaco', 'americano', 'ruso', 'sagrado', 'izquierdo', 'fijo', 'mágico', 'oscuro', 'operativo', 'revolucionario', 'perfecto', 'nervioso', 'femenino', 'asiático', 'atómico', 'norteamericano', 'republicano', 'urbano', 'electrónico', 'británico', 'solitario', 'mediterráneo', 'japonés', 'ibérico', 'bizantino'}
+
+11 {'preocupar', 'forzar', 'acusar', 'destinar', 'interesar', 'invitar', 'seleccionar', 'condenar', 'proponer', 'prohibir', 'autorizar', 'diseñar', 'amenazar'}
+
+23 {'descendiente', 'residente', 'integrante', 'dirigente'}
+
+39 {'escaño', 'diputado', 'año', 'mes', 'varón', 'minuto'}
+
+45 {'mil', 'millón', 'ciento'}
+
+62 {'hispano', 'islandés', 'marino', 'cristiano', 'contemporáneo', 'extranjero', 'católico', 'egipcio', 'externo', 'académico'}
+
+79 {'universo', 'dios', 'imperio', 'directorio', 'santo', 'consejo', 'metro'}
+
+Es el [cluster 7 supervised - semantic](clusters_supervised.out)
+
+##### Conclusión
+
+Hay varios clusters con una sola palabra. La mayoría de los clusters no tienen sentido. La verdad es que ignoro porque ocurre esto, no pude encontrarle una explicación razonable. Puede ser que la ingeniería de los features no sea la adecuada para este método de feature selection.
+
 
 ### Tercer Intento
 
@@ -537,6 +570,61 @@ Al parecer los clusters son bastantes semánticos. Esto se debe principalmente a
 | Reducción de dimensionalidad    | Supervisada (chi2) |
 | Clase de reducción              | syntac |
 
+##### Features
+
+Debido a que utilizaremos como clases los tags de las palabras para selección supervisada elegí los siguientes features:
+
+1) Syntac de la palabra actual, anterior y siguiente.
+
+2) Lemma de la palabra actual, anterior y siguiente.
+
+
+##### Clusters
+
+Es el [cluster 8 supervised - TAGS](clusters_supervised.out)
+
+1 {'alterar', 'cambiar'}
+
+2 {'emplear', 'utilizar', 'usar'}
+
+4 {'dibujar', 'trazar'}
+
+5 {'terminar', 'acabar', 'finalizar', 'concluir'}
+
+6 {'actual', 'presente'}
+
+7 {'considerar', 'ver'}
+
+9 {'marchar', 'salir', 'partir'}
+
+21 {'preparar', 'componer'}
+
+22 {'ampliar', 'extender'}
+
+23 {'consagrar', 'dedicar'}
+
+24 {'encontrar', 'detectar', 'observar', 'descubrir'}
+
+25 {'separar', 'dividir'}
+
+26 {'relacionar', 'vincular', 'conectar', 'asociar'}
+
+27 {'nombrar', 'mencionar', 'citar'}
+
+28 {'permitir', 'dejar'}
+
+29 {'añadir', 'agregar'}
+
+30 {'influir', 'influenciar'}
+
+31 {'extenso', 'largo'}
+
+42 {'afirmar', 'exponer', 'proponer', 'declarar'}
+
+##### Conclusión
+
+Claramente ha aumentado el sentido de los clusters debido a la ingería de features. Sin embargo todavía quedan clusters con una sola palabra. Empiezo a sospechar que la selección de feature utilizada no es la correcta. Para ello haré un último intento con selección de feature no supervisada mejorando la ingeniería de features.
+
 ### Cuarto intento
 
 | Proceso | / |
@@ -551,6 +639,46 @@ Al parecer los clusters son bastantes semánticos. Esto se debe principalmente a
 | Triplas de dependencias         | NO  |
 | K (K-means)                     | 120 |
 | Normalización de matriz         | SI  |
-| Reducción de dimensionalidad    | No-Supervisada  |
+| Reducción de dimensionalidad    | No-Supervisada (LSA) |
 
-Más features...
+##### Features
+
+1) Syntac de la palabra actual, anterior y siguiente.
+
+2) Lemma de la palabra actual, anterior y siguiente.
+
+3) TAG de la palabra actual, anterior y siguiente.
+
+4) Primera dos letras del TAG de la palabra actual, anterior y siguiente.
+
+##### Clusters
+
+Es el [cluster unsupervised - MORE FEATURES](clusters_supervised.out)
+
+
+2 {'ilustrar', 'herir', 'inspirar', 'asesinar', 'oponer', 'diseñar', 'condenar', 'prever', 'elegir', 'coronar', 'localizar', 'prohibir', 'asignar', 'inclinar', 'denominar', 'enterrar', 'conocer', 'documentar', 'componer', 'situar', 'acuñar', 'poblar', 'designar', 'amenazar', 'habitar', 'llamar', 'ocupar', 'ubicar', 'acompañar', 'criticar'}
+
+7 {'ciento', 'mil', 'millón'}
+
+10 {'diverso', 'sucesivo', 'cierto', 'respectivo', 'junto', 'numeroso'}
+
+11 {'agente', 'guardia', 'policía'}
+
+25 {'asociar', 'relacionar', 'conectar', 'vincular'}
+
+36 {'pretender', 'intentar'}
+
+37 {'poblador', 'colono'}
+
+38 {'sierra', 'cordillera'}
+
+51 {'rango', 'prestigio'}
+
+59 {'religión', 'fe'}
+
+60 {'finalizar', 'concluir', 'terminar', 'acabar'}
+
+
+##### Conclusión
+
+La calidad de los features ha aumentado y han bajado los clusters con una sola palabra. Podemos ver que la técnica de feature selection supervisado elegido no es el adecuado para este problema.
