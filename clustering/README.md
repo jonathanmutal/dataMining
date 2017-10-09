@@ -287,7 +287,7 @@ El objetivo de la selección de features es aumentar la perfomance de los "predi
 
 #### Primer método: Heurística propia
 
-El método de feature supervisado manual que utilice fue eliminar las palabras por el número de ocurrencias. Pero ¿que parámetro iba a utilizar para eliminar concurrencias?, es decir ¿entre cuantas concurrencias era conveniente dejar la palabra?. Para ello me ayude de la librería [panda](http://pandas.pydata.org) para analizar el corpus.
+El método de feature supervisado manual que utilice fue eliminar las palabras por el número de ocurrencias. Pero ¿que parámetro iba a utilizar para eliminar ocurrencias?, es decir ¿entre cuantas ocurrencias era conveniente dejar la palabra?. Para ello me ayude de la librería [panda](http://pandas.pydata.org) para analizar el corpus.
 
 A continuación mostraré como tome la desición.
 
