@@ -279,147 +279,146 @@ A continuación mostraré como tome la desición.
 
 Primero que todo mostraré las ocurrencias de las palabras (wiki corpus):
 
-             n             word
-87937   152991              NUM
-79412    65944               el
-97485    23066               en
-24422    22782              ser
-31467    19330            poder
-32780    13622              año
-48553    11464             este
-52906     9966            hacer
-70115     8138           ciudad
-100935    7662            parte
-33437     7390            mismo
-72424     7136        encontrar
-120792    6932              ver
-111541    6608              uno
-81463     6496              dar
-113858    6386               se
-52115     6320            forma
-61610     5934            decir
-39292     5886           llamar
-60753     5714          conocer
-127850    5566               si
-3208      5450             país
-45972     5428            nuevo
-24535     5424             gran
-38334     5294           nombre
-125593    5186            mayor
-56906     5184           aunque
-17936     4994              vez
-8069      4968       importante
-10638     4962            deber
-...        ...              ...
-99487     2586          recibir
-24488     2578  acontecimientos
-4542      2570        presentar
-132610    2556           enlace
-5780      2550          especie
-113744    2538          término
-118784    2537                n
-36883     2530         debido_a
-38162     2524            tomar
-105177    2518           quedar
-50408     2492            crear
-60040     2490           humano
-95380     2488              the
-92331     2478           centro
-1839      2464         relación
-57705     2444           tratar
-34908     2442          función
-127534    2442           origen
-96150     2438         entonces
-124726    2436              por
-46879     2428           contar
-100019    2422             cuyo
-2879      2420          familia
-11850     2416            época
-43331     2410          proceso
-51454     2402             bien
-30853     2394           además
-134856    2392         destacar
-72964     2390            morir
-30899     2382         mantener
-...
-        n                                            word
-65407   1              oratorio-casa_hermandad_de_mª_stma
-117662  1                               guŵmundur_hagalín
-133478  1                                         þjóðlíf
-76759   1                                          dýrðin
-36516   1                                              ºf
-87068   1                                         ŷrjátíu
-39504   1                                              k²
-126750  1                                             Ðin
-17131   1                                              Ḟr
-28507   1                                 mªisabel_tejada
-23145   1                                          ½uvres
-136966  1                         londres_por_edvard_bene
-99749   1                                    miðvikudagur
-141311  1                                              dª
-87624   1                                 ley_nacional_nẃ
-127997  1                                              eẃ
-116927  1                                           ŷraut
-106951  1                                          heiður
-48126   1                                              ẃf
-33579   1                                  bẃ_cooperación
-13061   1                                               ³
-104891  1                                 ley_nacional_nº
-59536   1                                           m½nia
-108895  1                                     bókafélagiŵ
-62400   1                                 princesa_libuẀe
-137071  1              oratorio-casa_hermandad_de_mẂ_stma
-85095   1                                             roo
-86098   1                   mẂ_magdalena_y_oliver_marroig
-32087   1                                          ustaẀe
-39484   1                                          heiŵur
-...    ..                                             ...
-10193   1                                    mahutny_boẁa
-26642   1                                        Ḋpilberk
-17185   1                                             mṪn
-39373   1                             mª_andrea_de_guzmán
-115391  1                                    Þorsteinsson
-14797   1                               frantiẀek_koẁíẀek
-43179   1                                           libuẀ
-60668   1                                             það
-25034   1                                         axẀaina
-68743   1                                        latvieẀu
-92224   1                nº_de_repeticiones_cag_resultado
-141500  1                                               Ŵ
-19695   1                                      holeẀovice
-134596  1                                              ºc
-88088   1                   escuela_normal_de_maestros_nẃ
-26860   1                                          njörŵr
-49532   1                                             viŵ
-42961   1                            ástríður_thorarensen
-140779  1                                davíð_stefansson
-140367  1  puerto_de_veracruz_por_la_carretera_federal_nº
-101215  1                                             aẀe
-131380  1                              iiẂ_guerra_mundial
-39981   1                                        joẁe_ple
-94538   1                                              ºr
-100269  1                               sigurŵur_ivarsson
-4584    1                                             sp³
-17206   1                                  palacio_morẁin
-98871   1                                       jugador_n
-129585  1                                             iŵa
-88985   1                                              zĠ
+    n             word
+    87937   152991              NUM
+    79412    65944               el
+    97485    23066               en
+    24422    22782              ser
+    31467    19330            poder
+    32780    13622              año
+    48553    11464             este
+    52906     9966            hacer
+    70115     8138           ciudad
+    100935    7662            parte
+    33437     7390            mismo
+    72424     7136        encontrar
+    120792    6932              ver
+    111541    6608              uno
+    81463     6496              dar
+    113858    6386               se
+    52115     6320            forma
+    61610     5934            decir
+    39292     5886           llamar
+    60753     5714          conocer
+    127850    5566               si
+    3208      5450             país
+    45972     5428            nuevo
+    24535     5424             gran
+    38334     5294           nombre
+    125593    5186            mayor
+    56906     5184           aunque
+    17936     4994              vez
+    8069      4968       importante
+    10638     4962            deber
+    ...        ...              ...
+    99487     2586          recibir
+    24488     2578  acontecimientos
+    4542      2570        presentar
+    132610    2556           enlace
+    5780      2550          especie
+    113744    2538          término
+    118784    2537                n
+    36883     2530         debido_a
+    38162     2524            tomar
+    105177    2518           quedar
+    50408     2492            crear
+    60040     2490           humano
+    95380     2488              the
+    92331     2478           centro
+    1839      2464         relación
+    57705     2444           tratar
+    34908     2442          función
+    127534    2442           origen
+    96150     2438         entonces
+    124726    2436              por
+    46879     2428           contar
+    100019    2422             cuyo
+    2879      2420          familia
+    11850     2416            época
+    43331     2410          proceso
+    51454     2402             bien
+    30853     2394           además
+    134856    2392         destacar
+    72964     2390            morir
+    30899     2382         mantener
+    ...
+            n                                            word
+    65407   1              oratorio-casa_hermandad_de_mª_stma
+    117662  1                               guŵmundur_hagalín
+    133478  1                                         þjóðlíf
+    76759   1                                          dýrðin
+    36516   1                                              ºf
+    87068   1                                         ŷrjátíu
+    39504   1                                              k²
+    126750  1                                             Ðin
+    17131   1                                              Ḟr
+    28507   1                                 mªisabel_tejada
+    23145   1                                          ½uvres
+    136966  1                         londres_por_edvard_bene
+    99749   1                                    miðvikudagur
+    141311  1                                              dª
+    87624   1                                 ley_nacional_nẃ
+    127997  1                                              eẃ
+    116927  1                                           ŷraut
+    106951  1                                          heiður
+    48126   1                                              ẃf
+    33579   1                                  bẃ_cooperación
+    13061   1                                               ³
+    104891  1                                 ley_nacional_nº
+    59536   1                                           m½nia
+    108895  1                                     bókafélagiŵ
+    62400   1                                 princesa_libuẀe
+    137071  1              oratorio-casa_hermandad_de_mẂ_stma
+    85095   1                                             roo
+    86098   1                   mẂ_magdalena_y_oliver_marroig
+    32087   1                                          ustaẀe
+    39484   1                                          heiŵur
+    ...    ..                                             ...
+    10193   1                                    mahutny_boẁa
+    26642   1                                        Ḋpilberk
+    17185   1                                             mṪn
+    39373   1                             mª_andrea_de_guzmán
+    115391  1                                    Þorsteinsson
+    14797   1                               frantiẀek_koẁíẀek
+    43179   1                                           libuẀ
+    60668   1                                             það
+    25034   1                                         axẀaina
+    68743   1                                        latvieẀu
+    92224   1                nº_de_repeticiones_cag_resultado
+    141500  1                                               Ŵ
+    19695   1                                      holeẀovice
+    134596  1                                              ºc
+    88088   1                   escuela_normal_de_maestros_nẃ
+    26860   1                                          njörŵr
+    49532   1                                             viŵ
+    42961   1                            ástríður_thorarensen
+    140779  1                                davíð_stefansson
+    140367  1  puerto_de_veracruz_por_la_carretera_federal_nº
+    101215  1                                             aẀe
+    131380  1                              iiẂ_guerra_mundial
+    39981   1                                        joẁe_ple
+    94538   1                                              ºr
+    100269  1                               sigurŵur_ivarsson
+    4584    1                                             sp³
+    17206   1                                  palacio_morẁin
+    98871   1                                       jugador_n
+    129585  1                                             iŵa
+    88985   1                                              zĠ
 
 
+    Promedio de ocurrencias n<150 : 23.487945263454893
 
-Promedio de ocurrencias n<150 : 23.487945263454893
+    % de palabras con ocurrencia menor a 150: 97.74%
 
-% de palabras con ocurrencia menor a 150: 97.74%
+    Ocurrencias entre 150 a 1001: promedio de ocurrencias: 357.41996303142326
 
-Ocurrencias entre 150 a 1001: promedio de ocurrencias: 357.41996303142326
+    % de palabras entre 150 a 1001 ocurrencias:1.9%
 
-% de palabras entre 150 a 1001 ocurrencias:1.9%
+    Ocurrencias entre 150 a 14000: promedio de ocurrencias: 646.8813139138518
 
-Ocurrencias entre 150 a 14000: promedio de ocurrencias: 646.8813139138518
+    % de palabras entre 150 a 14000 palabras: 2.27%
 
-% de palabras entre 150 a 14000 palabras: 2.27%
-
-Hay muchas palabras basura en el corpus, por lo que se puede ver que el porcentaje de palabras con menores a 150 ocurrencias es de 97%. Deje solo las palabras con ocurrencias entre 150 a 14000, que son el 2.27%. A pesar que es un porcentaje bajo del corpus, podemos estar conformes debido a la ley de Zipf.
+Hay muchas palabras basura en el corpus, por lo que el porcentaje de palabras con menores a 150 ocurrencias es de 97%. Deje solo las palabras con ocurrencias entre 150 a 14000, que son el 2.27%. A pesar que es un porcentaje bajo del corpus, podemos estar conformes debido a la ley de Zipf.
 
 
 The objective of variable selection is three-fold: improving the prediction performance of the predictors, providing faster and more cost-effective predictors, and providing a better understanding of
