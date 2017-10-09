@@ -9,6 +9,7 @@ import pickle
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.preprocessing import normalize
 from sklearn.decomposition import TruncatedSVD
+from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2
 
 from collections import defaultdict
@@ -279,6 +280,6 @@ class Featurize:
         else:
             self.matrix_reduced = lsa.fit_transform(self.matrix)
 
-    def reduce_supervised(self):
-        assert(len(self.matrix_normalizate) == len(self.label) == len(self.words))
-        self.matrix_reduced = chi2(self.matrix_normalizate, self.label)
+    def reduce_supervised(self, dim=700):
+        assert(np.shape(self.matrix_normalizate)[0] == np.shape(self.label)[0] == np.shape(self.words)[0])
+        self.matrix_reduced = SelectKBest(chi2, k=dim).fit_transform(self.matrix_normalizate, self.label)
