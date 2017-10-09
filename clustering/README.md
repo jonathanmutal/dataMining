@@ -279,7 +279,7 @@ A continuación mostraré como tome la desición.
 
 Primero que todo mostraré las ocurrencias de las palabras (wiki corpus):
 
-    n             word
+            n                  word
     87937   152991              NUM
     79412    65944               el
     97485    23066               en
