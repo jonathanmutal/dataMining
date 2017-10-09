@@ -270,8 +270,15 @@ Como no quiero hacerlo tan largo al informe se podría decir que es parecido al 
 
 ------------------------------------------------------------------------------------------------------
 # Práctico 2: Continuación
+### Descripción del sampleo del corpus anotado
+
+En este [paper](http://www.lsi.upc.edu/~nlp/papers/reese10.pdf) describe el corpus anotado de la wiki.
 
 ### Método de feature supervisado
+
+El objetivo de la selección de features es aumentar la perfomance de los "predictores" (debido a que evita el overfitting), aumentar la velocidad de los "predictores" y tratar de aumentar el entendimiento de los datos (al reducir la dimensionalidad se hace más entendible).
+
+#### Primer método: Heurística propia
 
 El método de feature supervisado manual que utilice fue eliminar las palabras por el número de ocurrencias. Pero ¿que parámetro iba a utilizar para eliminar concurrencias?, es decir ¿entre cuantas concurrencias era conveniente dejar la palabra?. Para ello me ayude de la librería [panda](http://pandas.pydata.org) para analizar el corpus.
 
@@ -418,8 +425,80 @@ Primero que todo mostraré las ocurrencias de las palabras (wiki corpus):
 
     % de palabras entre 150 a 14000 palabras: 2.27%
 
-Hay muchas palabras basura en el corpus, por lo que el porcentaje de palabras con menores a 150 ocurrencias es de 97%. Deje solo las palabras con ocurrencias entre 150 a 14000, que son el 2.27%. A pesar que es un porcentaje bajo del corpus, podemos estar conformes debido a la ley de Zipf.
+Hay muchas palabras basura en el corpus, por lo que el porcentaje de palabras con menores a 150 ocurrencias es de 97%. Deje solo las palabras con ocurrencias entre 150 a 14000, que son el 2.27%. A pesar que es un porcentaje bajo del corpus, podemos estar conformes debido a la ley de Zipf (nos indica que la mayoría de las palabras han sido vista una sola vez).
 
 
-The objective of variable selection is three-fold: improving the prediction performance of the predictors, providing faster and more cost-effective predictors, and providing a better understanding of
-the underlying process that generated the data.
+#### Segundo método: chi2
+
+Computa estadísticas chi-cuadrado entre features no negativos y clases. Estas estadisticas pueden ser utilizadas para seleccionar n features. Utilice la librería de [sklearn](http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.chi2.html#sklearn.feature_selection.chi2). Para las clases utilizo las etiquetas del corpus anotado de la wiki. Haré una prueba tanto con clases tag como con los sentidos wordnet. Los features que he utilizado han sido muy parecidos al del práctico anterior. Iré explicando en cada intento los features elegidos.
+
+### Primer intento
+
+| Proceso | / |
+|:----:|:-:|
+| Tokenización | SI  |
+| StopWords                       | NO  |
+| Lemmatización                   | SI  |
+| Tagger                          | wikiCorpus |
+| Pos                             | NO  |
+| Palabras con poca ocurrenciass  | NO  |
+| Palabras repetidas              | NO  |
+| Triplas de dependencias         | NO  |
+| K (K-means)                     | 120 |
+| Normalización de matriz         | SI  |
+| Reducción de dimensionalidad    | NO-Supervisada  |
+
+
+### Segundo Intento
+
+| Proceso | / |
+|:----:|:-:|
+| Tokenización | SI  |
+| StopWords                       | NO  |
+| Lemmatización                   | SI  |
+| Tagger                          | wikiCorpus |
+| Pos                             | NO  |
+| Palabras con poca ocurrenciass  | NO  |
+| Palabras repetidas              | NO  |
+| Triplas de dependencias         | NO  |
+| K (K-means)                     | 120 |
+| Normalización de matriz         | SI  |
+| Reducción de dimensionalidad    | Supervisada  |
+| Clase de reducción              | tag |
+
+
+### Tercer Intento
+
+
+| Proceso | / |
+|:----:|:-:|
+| Tokenización | SI  |
+| StopWords                       | NO  |
+| Lemmatización                   | SI  |
+| Tagger                          | wikiCorpus |
+| Pos                             | NO  |
+| Palabras con poca ocurrenciass  | NO  |
+| Palabras repetidas              | NO  |
+| Triplas de dependencias         | NO  |
+| K (K-means)                     | 120 |
+| Normalización de matriz         | SI  |
+| Reducción de dimensionalidad    | Supervisada  |
+| Clase de reducción              | syntac |
+
+### Cuarto intento
+
+| Proceso | / |
+|:----:|:-:|
+| Tokenización | SI  |
+| StopWords                       | NO  |
+| Lemmatización                   | SI  |
+| Tagger                          | wikiCorpus |
+| Pos                             | NO  |
+| Palabras con poca ocurrenciass  | NO  |
+| Palabras repetidas              | NO  |
+| Triplas de dependencias         | NO  |
+| K (K-means)                     | 120 |
+| Normalización de matriz         | SI  |
+| Reducción de dimensionalidad    | No-Supervisada  |
+
+Más features...
